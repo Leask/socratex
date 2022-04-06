@@ -7,7 +7,7 @@ function sleep(ms) {
 }
 
 const server = new ProxyServer({
-    upstream: async function(data, bridgedConnection) {
+    upstream: async function(data, connection) {
         // await sleep(1000);
         if (~(data.toString().indexOf('ifconfig.me'))) {
             return 'x.x.x:10001'; //upstream to myProxy

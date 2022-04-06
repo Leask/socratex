@@ -212,7 +212,7 @@ It has following useful attributes/methods:
 - isAuthenticated() - Is the session authenticated by user or not.
 
 
-## .getBridgedConnections()
+## .getConnections()
 
 ```javascript
 const ProxyServer = require('socrates');
@@ -224,8 +224,8 @@ server.listen(8080, '0.0.0.0', function () {
 });
 
 setInterval(function showOpenSockets() {
-    const bridgedConnections = server.getBridgedConnections();
-    console.log([new Date()], 'OPEN =>', Object.keys(bridgedConnections).length)
+    const connections = server.getConnections();
+    console.log([new Date()], 'OPEN =>', Object.keys(connections).length)
 }, 2000);
 ```
 
