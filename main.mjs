@@ -18,6 +18,7 @@ const getAddress = (protocol, server) => {
 };
 
 const ensureToken = async () => {
+    console.log((await storage.getConfig)?.config?.token);
     if (!(token = (await storage.getConfig)?.config?.token)) {
         token = encryption.randomString(64);
         await storage.setConfig({ token });
