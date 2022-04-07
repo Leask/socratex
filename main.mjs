@@ -1,4 +1,4 @@
-import { Socrates, utilitas, consts, ssl, storage } from './index.mjs';
+import { Socrates, utilitas, consts, ssl, web } from './index.mjs';
 import http from 'http';
 
 const meta = await utilitas.which();
@@ -37,7 +37,7 @@ const socratesInit = async (options) => {
         listen: '',
         ...options || {},
     };
-    domain = options.domain;
+    web.setDomain(domain = options.domain);
     if (options.user && options.password) {
         options.auth = (username, password) => {
             utilitas.log(
