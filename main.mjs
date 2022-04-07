@@ -70,6 +70,6 @@ const socratesInit = async (options) => {
 await socratesInit({
     // user: 'leask',
     // password: 'nopassword',
-
+    domain: 'on.leaskh.com',
     debug: true,
 });
