@@ -23,5 +23,8 @@
   ],
   "author": "Leask Wong",
   "license": "MIT",
-  "homepage": "https://github.com/Leask/socrates"
+  "homepage": "https://github.com/Leask/socrates",
+  "dependencies": {
+    "acme-client": "^4.2.5"
+  }
 }

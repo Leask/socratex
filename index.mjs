@@ -1,10 +1,11 @@
 import _ from './lib/horizon.mjs'
 import * as consts from './lib/consts.mjs';
-import * as socrates from './lib/socrates.mjs';
+import * as ssl from './lib/ssl.mjs';
 import * as storage from './lib/storage.mjs';
 import * as utilitas from './lib/utilitas.mjs';
+import * as web from './lib/web.mjs';
 import color from './lib/color.mjs';
-import select from './lib/select.mjs';
+import Socrates from './lib/socrates.mjs';
 
-export default socrates.default;
-export { color, consts, select, socrates, storage, utilitas };
+export default Socrates;
+export { color, consts, Socrates, ssl, storage, utilitas, web };
