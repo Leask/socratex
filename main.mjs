@@ -1,4 +1,7 @@
-import { Socrates, utilitas, consts, ssl, web } from './index.mjs';
+import {
+    Socrates, utilitas, consts, ssl, web, storage, encryption
+} from './index.mjs';
+
 import http from 'http';
 
 const meta = await utilitas.which();
@@ -6,12 +9,20 @@ const mod = `${meta?.title}.*`;
 const logWithTime = { time: true };
 const acmeChallenge = { url: null, key: null };
 
-let domain;
+let [domain, token] = ['', ''];
 
 const getAddress = (protocol, server) => {
     const { address, family, port } = server.address();
     const add = `${protocol}://${domain}:${port} (${family} ${address})`;
     return { address, family, port, add };
+};
+
+const ensureToken = async () => {
+    if (!(token = (await storage.getConfig)?.config?.token)) {
+        token = encryption.randomString();
+        await storage.setConfig({ token });
+    }
+    return token;
 };
 
 const request = async (req, res) => {
@@ -38,6 +49,7 @@ const socratesInit = async (options) => {
         ...options || {},
     };
     web.setDomain(domain = options.domain);
+    web.setToken(token = await ensureToken());
     if (options.user && options.password) {
         options.auth = (username, password) => {
             utilitas.log(
@@ -64,6 +76,7 @@ const socratesInit = async (options) => {
         async (url) => Object.assign(acmeChallenge, { url: null, key: null }),
         { debug: options.debug }
     );
+    utilitas.log(`PAC: ${consts.HTTPS_PORT}://${domain}/wpad.dat?token=${token}`, mod);
     options.debug && (await import('repl')).start('> ');
 };
 
