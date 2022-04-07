@@ -58,12 +58,12 @@ const socratesInit = async (options) => {
         const { add } = getAddress(consts.HTTP, httpd);
         utilitas.log(`HTTP Server started at ${add}.`, mod);
     });
-    await ssl.ensureCert(
-        options.domain,
-        async (url, key) => Object.assign(acmeChallenge, { url, key }),
-        async (url) => Object.assign(acmeChallenge, { url: null, key: null }),
-        { debug: options.debug }
-    );
+    // await ssl.ensureCert(
+    //     options.domain,
+    //     async (url, key) => Object.assign(acmeChallenge, { url, key }),
+    //     async (url) => Object.assign(acmeChallenge, { url: null, key: null }),
+    //     { debug: options.debug }
+    // );
     options.debug && (await import('repl')).start('> ');
 };
 
