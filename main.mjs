@@ -76,7 +76,7 @@ const socratesInit = async (options) => {
         async (url) => Object.assign(acmeChallenge, { url: null, key: null }),
         { debug: options.debug }
     );
-    utilitas.log(`PAC: ${consts.HTTPS_PORT}://${domain}/wpad.dat?token=${token}`, mod);
+    utilitas.log(`PAC: ${consts.HTTPS}://${domain}/wpad.dat?token=${token}`, mod);
     options.debug && (await import('repl')).start('> ');
 };
 
