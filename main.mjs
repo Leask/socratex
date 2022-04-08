@@ -1,24 +1,32 @@
-import {
-    Socrates, utilitas, consts, ssl, web, storage, encryption
-} from './index.mjs';
-
+import { Socrates, utilitas, consts, ssl, storage, encryption } from './index.mjs';
 import http from 'http';
+import yargsParser from 'yargs-parser';
 
 const meta = await utilitas.which();
-const mod = `${meta?.title}.*`;
-const logWithTime = { time: true };
-const acmeChallenge = { url: null, key: null };
+const [logWithTime, acmeChallenge] = [{ time: true }, { url: null, key: null }];
+const warning = message => utilitas.log(message, 'WARNING');
+const argv = {
+    domain: '', http: false, listen: '', port: 0, getStatus: storage.getConfig,
+    setStatus: storage.setConfig, ...yargsParser(process.argv.slice(2)),
+};
 
-let [domain, token] = ['', ''];
-
-const getAddress = (protocol, server) => {
+const getAddress = (ptcl, server) => {
     const { address, family, port } = server.address();
-    const add = `${protocol}://${domain}:${port} (${family} ${address})`;
+    const add = `${ptcl}://${_socrates.domain}:${port} (${family} ${address})`;
     return { address, family, port, add };
 };
 
+const ensureDomain = async () => {
+    if (argv.domain) {
+        await storage.setConfig({ domain: argv.domain });
+        return argv.domain;
+    }
+    return (await storage.getConfig())?.config?.domain || '127.0.0.1';
+};
+
 const ensureToken = async () => {
-    if (!(token = (await storage.getConfig())?.config?.token)) {
+    let token = (await storage.getConfig())?.config?.token;
+    if (!token) {
         token = encryption.randomString(64);
         await storage.setConfig({ token });
     }
@@ -26,63 +34,74 @@ const ensureToken = async () => {
 };
 
 const request = async (req, res) => {
-    // const { status, body } = await web.default(req.method, req.url, null, req);
-    // res.socket.write(`${status}${consts.DOUBLE_CLRF}${body ?? ''}`);
-    // res.socket.destroy();
-    if (req.method === consts.HTTP_METHODS.GET
-        && acmeChallenge.key
-        && acmeChallenge.url
-        && acmeChallenge.url === req.url) {
+    if (req.method === consts.HTTP_METHODS.GET && acmeChallenge.key
+        && acmeChallenge.url && acmeChallenge.url === req.url) {
         return res.end(acmeChallenge.key);
     }
     res.writeHead(301, {
-        Location: `${consts.HTTPS}://${domain}${req.url}`
+        Location: `${consts.HTTPS}://${_socrates.domain}${req.url}`
     }).end();
 };
 
-const socratesInit = async (options) => {
-    options = {
-        port: consts.HTTPS_PORT,
-        domain: consts.DEFAULT_OPTIONS.domain,
-        https: true,
-        listen: '',
-        ...options || {},
-    };
-    web.setDomain(domain = options.domain);
-    web.setToken(token = await ensureToken());
-    if (options.user && options.password) {
-        options.auth = (username, password) => {
-            utilitas.log(
-                `Authenticate: ${username}:${utilitas.maskPassword(password)}.`,
-                meta?.name, logWithTime
-            );
-            return utilitas.insensitiveCompare(username, options.user)
-                && password === options.password;
-        };
-    }
-    const socrates = new Socrates(options);
-    socrates.listen(options.port, options.listen, async () => {
-        const { add } = getAddress(consts.HTTPS, socrates);
-        utilitas.log(`Secure Web Proxy started at ${add}.`, mod);
-    });
-    const httpd = http.createServer(request);
-    httpd.listen(consts.HTTP_PORT, options.listen, async () => {
-        const { add } = getAddress(consts.HTTP, httpd);
-        utilitas.log(`HTTP Server started at ${add}.`, mod);
-    });
-    await ssl.ensureCert(
-        options.domain,
-        async (url, key) => Object.assign(acmeChallenge, { url, key }),
-        async (url) => Object.assign(acmeChallenge, { url: null, key: null }),
-        { debug: options.debug }
-    );
-    utilitas.log(`PAC: ${consts.HTTPS}://${domain}/wpad.dat?token=${token}`, mod);
-    options.debug && (await import('repl')).start('> ');
-};
+utilitas.log(`${meta.homepage}`, `${meta?.title}.*`);
+globalThis._socrates = { https: argv.https = !argv.http };
+const port = argv.port || (_socrates.https ? consts.HTTPS_PORT : consts.HTTP_PORT);
+Object.assign(_socrates, { domain: await ensureDomain(), token: await ensureToken() });
+_socrates.address = `${_socrates.https ? consts.HTTPS.toUpperCase() : consts.PROXY} ${_socrates.domain}:${port}`;
 
-await socratesInit({
-    // user: 'leask',
-    // password: 'nopassword',
-    domain: 'on.leaskh.com',
-    // debug: true,
+if (argv.user && argv.password) {
+    argv.basicAuth = async (username, password) => {
+        const result = utilitas.insensitiveCompare(username, argv.user)
+            && password === argv.password;
+        utilitas.log(
+            `${result ? consts.SUCCESS : consts.FAILED} => `
+            + `${username}:${utilitas.maskPassword(password)}.`,
+            consts.AUTHENTICATE, logWithTime
+        );
+        return result;
+    };
+}
+
+if (_socrates.token) {
+    argv.tokenAuth = async (token) => {
+        const result = token === _socrates.token;
+        utilitas.log(
+            `${result ? consts.SUCCESS : consts.FAILED} => `
+            + `TOKEN:${utilitas.maskPassword(token)}.`,
+            consts.AUTHENTICATE, logWithTime
+        );
+        return result;
+    };
+}
+
+globalThis.socrates = new Socrates(argv);
+socrates.listen(port, argv.listen, async () => {
+    const { add } = getAddress(_socrates.https ? consts.HTTPS : consts.HTTP, socrates);
+    utilitas.log(`${_socrates.https ? 'Secure ' : ''}Web Proxy started at ${add}.`, meta?.name);
 });
+
+if (_socrates.https) {
+    globalThis.httpd = http.createServer(request);
+    httpd.listen(consts.HTTP_PORT, argv.listen, async () => {
+        const { add } = getAddress(consts.HTTP, httpd);
+        utilitas.log(`HTTP Server started at ${add}.`, meta?.name);
+    });
+    if (['127.0.0.1', '::1', 'localhost'].includes(_socrates.domain)) {
+        warning('A public domain is required to get an ACME certs.');
+    } else {
+        await ssl(
+            _socrates.domain,
+            async (url, key) => Object.assign(acmeChallenge, { url, key }),
+            async (url) => Object.assign(acmeChallenge, { url: null, key: null }),
+            { debug: argv.debug }
+        );
+    }
+} else { warning('HTTP-only mode is not recommended.'); }
+
+let pacAdd = `${_socrates.https ? consts.HTTPS : consts.HTTP}://${_socrates.domain}`;
+if (_socrates.https && port === consts.HTTPS_PORT) { }
+else if (!_socrates.https && port === consts.HTTP_PORT) { }
+else { pacAdd += `:${port}`; }
+pacAdd += `/wpad.dat?token=${_socrates.token}`;
+utilitas.log(`PAC: ${pacAdd}`, meta?.name);
+argv.repl && (await import('repl')).start('> ');

@@ -25,6 +25,7 @@
   "license": "MIT",
   "homepage": "https://github.com/Leask/socrates",
   "dependencies": {
-    "acme-client": "^4.2.5"
+    "acme-client": "^4.2.5",
+    "yargs-parser": "^21.0.1"
   }
 }
