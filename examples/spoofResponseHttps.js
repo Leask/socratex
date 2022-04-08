@@ -1,10 +1,10 @@
-const ProxyServer = require('../ProxyServer');
+const { Socrates } = require('../index.mjs');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
 const toTest = ['http://v4.ident.me/', 'https://v4.ident.me/'];
 
-const server = new ProxyServer({
+const server = new Socrates({
     intercept: true,
     injectResponse: (data, session) => {
         const ipToSwitch = 'x.x.x.x';

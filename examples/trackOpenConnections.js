@@ -1,6 +1,6 @@
-const ProxyServer = require('../ProxyServer');
+const { Socrates } = require('../index.mjs');
 
-const server = new ProxyServer();
+const server = new Socrates();
 
 //starting server on port 1555
 server.listen(1555, '0.0.0.0', function() {

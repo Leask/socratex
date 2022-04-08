@@ -1,4 +1,4 @@
-const ProxyServer = require('../ProxyServer');
+const { Socrates } = require('../index.mjs');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
@@ -7,7 +7,7 @@ const toTest = ['http://ifconfig.io/ua', 'https://ifconfig.me/ua'];
 const uaToSwitch = 'curl/7.55.1';
 const switchWith = 'My Super Fucking Spoofed UA!';
 
-const server = new ProxyServer({
+const server = new Socrates({
     intercept: true,
     injectData: (data, session) => {
         if (session.isHttps) {

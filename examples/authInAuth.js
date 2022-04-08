@@ -1,4 +1,4 @@
-const ProxyServer = require('../ProxyServer');
+const { Socrates } = require('../index.mjs');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
@@ -10,29 +10,29 @@ const toTest = [
     'https://ifconfig.co',
 ];
 
-//init ProxyServer
-const firstProxyServer = new ProxyServer({
+//init Socrates
+const firstSocrates = new Socrates({
     auth: function(username, password) {
         return (username === 'test' && password === 'testPWD');
     }
 });
 const firstPort = 10001;
 //starting server on port 10001
-firstProxyServer.listen(firstPort, '0.0.0.0', async function() {
-    console.log('socrates was started!', firstProxyServer.address());
+firstSocrates.listen(firstPort, '0.0.0.0', async function() {
+    console.log('socrates was started!', firstSocrates.address());
 });
 
 
-//init ProxyServer2
-const secondProxyServer = new ProxyServer({
+//init Socrates2
+const secondSocrates = new Socrates({
     upstream: function() {
         return 'test:testPWD@0.0.0.0:' + firstPort;
     }
 });
 const secondPort = 10002;
 //starting server on port 10001
-secondProxyServer.listen(secondPort, '0.0.0.0', async function() {
-    console.log('2 socrates was started!', secondProxyServer.address());
+secondSocrates.listen(secondPort, '0.0.0.0', async function() {
+    console.log('2 socrates was started!', secondSocrates.address());
 
     for (const singlePath of toTest) {
         const cmd = 'curl' + ' -x localhost:' + secondPort + ' ' + singlePath;
@@ -41,6 +41,6 @@ secondProxyServer.listen(secondPort, '0.0.0.0', async function() {
         console.log('Response =>', stdout);
     }
 
-    secondProxyServer.close();
-    firstProxyServer.close();
+    secondSocrates.close();
+    firstSocrates.close();
 });

@@ -1,4 +1,4 @@
-const ProxyServer = require('../ProxyServer');
+const { Socrates } = require('../index.mjs');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
@@ -7,7 +7,7 @@ const toTest = ['http://v4.ident.me/', 'https://v4.ident.me/'];
 const ipToSwitch = 'x.x.x.x';
 const switchWith = 'bla.bla.bla.bla';
 
-const server = new ProxyServer({
+const server = new Socrates({
     injectResponse: (data, session) => {
         if (!session.isHttps) {
             //you can spoof here

@@ -21,10 +21,10 @@ npm i socrates
 ## Use
 
 ```javascript
-const ProxyServer = require('socrates');
+const Socrates = require('socrates');
 
-//init ProxyServer
-const server = new ProxyServer();
+//init Socrates
+const server = new Socrates();
 
 //starting server on port 8080
 server.listen(8080, '0.0.0.0', function () {
@@ -76,9 +76,9 @@ If you don't want to use the host of active instance self, then you need to upst
 This can be done with `upstream` attribute.
 
 ```javascript
-const ProxyServer = require('socrates');
+const Socrates = require('socrates');
 
-const server = new ProxyServer({
+const server = new Socrates({
     upstream: function () {
           return 'x.x.x.x:3128'; // upstream to other proxy
     }
@@ -93,9 +93,9 @@ server.listen(8080, '0.0.0.0', function () {
 You can also use an async function to upstream your requests:
 
 ```javascript
-const ProxyServer = require('socrates');
+const Socrates = require('socrates');
 
-const server = new ProxyServer({
+const server = new Socrates({
     upstream: async function () {
          //make some async task before
          return 'x.x.x.x:3128'; // upstream to other proxy
@@ -128,9 +128,9 @@ The Auth-function will be executed while handling Proxy-Authentications.
 
 
 ```javascript
-const ProxyServer = require('socrates');
+const Socrates = require('socrates');
 
-const server = new ProxyServer({
+const server = new Socrates({
     auth: function (username, password) {
         return username === 'bar' && password === 'foo';
     }
@@ -159,7 +159,7 @@ This will activate Security-Alarm by most used browsers.
 const uaToSwitch = 'curl/7.55.1';
 const switchWith = 'My Super Fucking Spoofed UA!';
 
-const server = new ProxyServer({
+const server = new Socrates({
     intercept: true,
     injectData: (data, session) => {
         if (session.isHttps) {
@@ -215,8 +215,8 @@ It has following useful attributes/methods:
 ## .getConnections()
 
 ```javascript
-const ProxyServer = require('socrates');
-const server = new ProxyServer();
+const Socrates = require('socrates');
+const server = new Socrates();
 
 //starting server on port 8080
 server.listen(8080, '0.0.0.0', function () {
@@ -236,9 +236,9 @@ setInterval(function showOpenSockets() {
 This example upstreams only requests for ifconfig.me to another proxy, for all other requests will be used localhost.
 
 ```javascript
-const ProxyServer = require('socrates');
+const Socrates = require('socrates');
 
-const server = new ProxyServer({
+const server = new Socrates({
     upstream: function (data, session) {
         if (~(data.toString().indexOf('ifconfig.me'))) {
             return 'x.x.x.x:3128'; // upstream to other proxy

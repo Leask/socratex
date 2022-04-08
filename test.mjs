@@ -126,7 +126,6 @@ const test5 = async () => {
     const singlePath = 'https://ifconfig.me/';
     const pwdToTest = ['bar:foo', 'wronguser:wrongpassword'];
     const PORT = 10005; //starting server on port 10001
-    //init ProxyServer
     const server = new Socrates({
         auth: (username, password, session) => {
             return username === 'bar' && password === 'foo';

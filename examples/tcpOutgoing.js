@@ -1,7 +1,7 @@
-const ProxyServer = require('../ProxyServer');
+const { Socrates } = require('../index.mjs');
 
-//init ProxyServer
-const server = new ProxyServer({
+//init Socrates
+const server = new Socrates({
     tcpOutgoingAddress: function(data, connection) {
         return 'x.x.x.x'; //using other iFace as default
     }
