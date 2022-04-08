@@ -1,16 +1,26 @@
 {
   "name": "socrates",
-  "version": "1.8.11",
   "description": "A Secure Web Proxy.",
+  "version": "1.8.11",
+  "private": false,
+  "homepage": "https://github.com/Leask/socrates",
   "main": "index.mjs",
   "type": "module",
+  "bin": {
+    "bistrot": "main.mjs"
+  },
   "engines": {
     "node": ">=16.x"
   },
   "scripts": {
-    "test": "node test.js exit 0",
+    "start": "node main.mjs",
+    "debug": "node --inspect --trace-warnings main.mjs --debug",
+    "test": "node --inspect --trace-warnings test.mjs",
     "updep": "npx ncu -u && npm install && wget https://raw.githubusercontent.com/Marak/colors.js/master/lib/styles.js -O ./lib/style.cjs",
-    "prepublish_": "npm test"
+    "gitsync": "( git commit -am \"Released @ `date`\" || true ) && git pull && git push",
+    "build": "npm run updep && ( git commit -am 'update dependencies' || true ) && npm version patch",
+    "prepublishOnly": "npm run build && npm run gitsync",
+    "beta": "npm publish --tag beta"
   },
   "keywords": [
     "http-proxy",
@@ -21,9 +31,12 @@
     "transparent",
     "tunnel"
   ],
-  "author": "Leask Wong",
+  "author": "Leask Wong <i@leaskh.com>",
   "license": "MIT",
-  "homepage": "https://github.com/Leask/socrates",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Leask/socrates.git"
+  },
   "dependencies": {
     "acme-client": "^4.2.5",
     "yargs-parser": "^21.0.1"
