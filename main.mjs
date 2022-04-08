@@ -1,6 +1,9 @@
-import { Socrates, utilitas, consts, ssl, storage, encryption } from './index.mjs';
 import http from 'http';
 import yargsParser from 'yargs-parser';
+
+import {
+    Socrates, utilitas, consts, ssl, storage, encryption
+} from './index.mjs';
 
 const meta = await utilitas.which();
 const [logWithTime, acmeChallenge] = [{ time: true }, { url: null, key: null }];
@@ -45,18 +48,24 @@ const request = async (req, res) => {
 
 utilitas.log(`${meta.homepage}`, `${meta?.title}.*`);
 globalThis._socrates = { https: argv.https = !argv.http };
-const port = argv.port || (_socrates.https ? consts.HTTPS_PORT : consts.HTTP_PORT);
-Object.assign(_socrates, { domain: await ensureDomain(), token: await ensureToken() });
-_socrates.address = `${_socrates.https ? consts.HTTPS.toUpperCase() : consts.PROXY} ${_socrates.domain}:${port}`;
+const port = argv.port || (
+    _socrates.https ? consts.HTTPS_PORT : consts.HTTP_PORT
+);
+Object.assign(_socrates, {
+    domain: await ensureDomain(), token: await ensureToken()
+});
+_socrates.address = (
+    _socrates.https ? consts.HTTPS.toUpperCase() : consts.PROXY
+) + ` ${_socrates.domain}:${port}`;
 
 if (argv.user && argv.password) {
     argv.basicAuth = async (username, password) => {
         const result = utilitas.insensitiveCompare(username, argv.user)
             && password === argv.password;
         utilitas.log(
-            `${result ? consts.SUCCESS : consts.FAILED} => `
+            `Authenticate ${result ? 'SUCCESS' : 'FAILED'} => `
             + `${username}:${utilitas.maskPassword(password)}.`,
-            consts.AUTHENTICATE, logWithTime
+            meta?.name, logWithTime
         );
         return result;
     };
@@ -66,9 +75,9 @@ if (_socrates.token) {
     argv.tokenAuth = async (token) => {
         const result = token === _socrates.token;
         utilitas.log(
-            `${result ? consts.SUCCESS : consts.FAILED} => `
+            `Authenticate ${result ? 'SUCCESS' : 'FAILED'} => `
             + `TOKEN:${utilitas.maskPassword(token)}.`,
-            consts.AUTHENTICATE, logWithTime
+            meta?.name, logWithTime
         );
         return result;
     };
@@ -76,8 +85,13 @@ if (_socrates.token) {
 
 globalThis.socrates = new Socrates(argv);
 socrates.listen(port, argv.listen, async () => {
-    const { add } = getAddress(_socrates.https ? consts.HTTPS : consts.HTTP, socrates);
-    utilitas.log(`${_socrates.https ? 'Secure ' : ''}Web Proxy started at ${add}.`, meta?.name);
+    const { add } = getAddress(
+        _socrates.https ? consts.HTTPS : consts.HTTP, socrates
+    );
+    utilitas.log(
+        `${_socrates.https ? 'Secure ' : ''}Web Proxy started at ${add}.`,
+        meta?.name
+    );
 });
 
 if (_socrates.https) {
@@ -92,13 +106,14 @@ if (_socrates.https) {
         await ssl(
             _socrates.domain,
             async (url, key) => Object.assign(acmeChallenge, { url, key }),
-            async (url) => Object.assign(acmeChallenge, { url: null, key: null }),
+            async (url) => Object.assign(acmeChallenge, { url: '', key: '' }),
             { debug: argv.debug }
         );
     }
 } else { warning('HTTP-only mode is not recommended.'); }
 
-let pacAdd = `${_socrates.https ? consts.HTTPS : consts.HTTP}://${_socrates.domain}`;
+let pacAdd = `${_socrates.https ? consts.HTTPS : consts.HTTP}://`
+    + _socrates.domain;
 if (_socrates.https && port === consts.HTTPS_PORT) { }
 else if (!_socrates.https && port === consts.HTTP_PORT) { }
 else { pacAdd += `:${port}`; }
