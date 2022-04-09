@@ -7,7 +7,7 @@ Socrates extends the native [net.createServer](https://nodejs.org/api/net.html#n
 # Try it out
 
 ```bash
-$ npx socrates -h
+$ npx socrates-x
 ```
 
 
