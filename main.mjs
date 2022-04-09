@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import http from 'http';
 import yargsParser from 'yargs-parser';
 
