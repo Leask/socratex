@@ -1,7 +1,7 @@
 {
   "name": "socrates",
   "description": "A Secure Web Proxy.",
-  "version": "1.8.11",
+  "version": "1.8.12",
   "private": false,
   "homepage": "https://github.com/Leask/socrates",
   "main": "index.mjs",
