@@ -14,7 +14,7 @@
   },
   "scripts": {
     "start": "node main.mjs",
-    "debug": "node --inspect --trace-warnings main.mjs --debug",
+    "debug": "node --inspect --trace-warnings main.mjs --http --debug",
     "test": "node --inspect --trace-warnings test.mjs",
     "updep": "npx ncu -u && npm install && wget https://raw.githubusercontent.com/Marak/colors.js/master/lib/styles.js -O ./lib/style.cjs",
     "gitsync": "( git commit -am \"Released @ `date`\" || true ) && git pull && git push",

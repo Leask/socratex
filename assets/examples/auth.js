@@ -1,4 +1,4 @@
-const { Socrates } = require('../index.mjs');
+const { Socrates } = require('../../index.mjs');
 
 //init Socrates
 const server = new Socrates({

@@ -2,7 +2,7 @@ import http from 'http';
 import yargsParser from 'yargs-parser';
 
 import {
-    Socrates, utilitas, consts, ssl, storage, encryption
+    Socrates, utilitas, consts, ssl, storage, encryption, web,
 } from './index.mjs';
 
 const meta = await utilitas.which();
@@ -48,15 +48,22 @@ const request = async (req, res) => {
 
 utilitas.log(`${meta.homepage}`, `${meta?.title}.*`);
 globalThis._socrates = { https: argv.https = !argv.http };
+
 const port = argv.port || (
     _socrates.https ? consts.HTTPS_PORT : consts.HTTP_PORT
 );
+
 Object.assign(_socrates, {
     domain: await ensureDomain(), token: await ensureToken()
 });
+
 _socrates.address = (
     _socrates.https ? consts.HTTPS.toUpperCase() : consts.PROXY
 ) + ` ${_socrates.domain}:${port}`;
+
+argv.bypass = argv.bypass ? new Set(
+    utilitas.ensureArray(argv.bypass).map(item => item.toUpperCase())
+) : null;
 
 if (argv.user && argv.password) {
     argv.basicAuth = async (username, password) => {
@@ -84,6 +91,7 @@ if (_socrates.token) {
 }
 
 globalThis.socrates = new Socrates(argv);
+
 socrates.listen(port, argv.listen, async () => {
     const { add } = getAddress(
         _socrates.https ? consts.HTTPS : consts.HTTP, socrates
@@ -114,9 +122,14 @@ if (_socrates.https) {
 
 let pacAdd = `${_socrates.https ? consts.HTTPS : consts.HTTP}://`
     + _socrates.domain;
+
 if (_socrates.https && port === consts.HTTPS_PORT) { }
 else if (!_socrates.https && port === consts.HTTP_PORT) { }
 else { pacAdd += `:${port}`; }
+
 pacAdd += `/wpad.dat?token=${_socrates.token}`;
 utilitas.log(`PAC: ${pacAdd}`, meta?.name);
+
+await web.init(argv);
+
 argv.repl && (await import('repl')).start('> ');

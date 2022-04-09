@@ -1,7 +1,7 @@
 .history
+/assets
 /build.mjs
 /debug.mjs
-/examples
 /index.html
 /keys/README.md
 /package-lock.json

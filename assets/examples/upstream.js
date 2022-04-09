@@ -1,4 +1,4 @@
-const { Socrates } = require('../index.mjs');
+const { Socrates } = require('../../index.mjs');
 
 function sleep(ms) {
     return new Promise(function(res, rej) {
