@@ -122,7 +122,7 @@ if (_socrates.https) {
         await ensureCert();
         setInterval(async () => {
             await utilitas.ignoreErrFunc(ensureCert, { log: true });
-        }, 1000 * 10);
+        }, 1000 * 60 * 10);
     }
 } else { warning('HTTP-only mode is not recommended.'); }
 
