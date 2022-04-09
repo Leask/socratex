@@ -111,7 +111,7 @@ if (_socrates.https) {
     if (['127.0.0.1', '::1', 'localhost'].includes(_socrates.domain)) {
         warning('A public domain is required to get an ACME certs.');
     } else {
-        await ssl(
+        await ssl.ensureCert(
             _socrates.domain,
             async (url, key) => Object.assign(acmeChallenge, { url, key }),
             async (url) => Object.assign(acmeChallenge, { url: '', key: '' }),
