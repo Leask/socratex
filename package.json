@@ -1,6 +1,6 @@
 {
-  "name": "socrates",
-  "description": "A Secure Web Proxy.",
+  "name": "socroxy",
+  "description": "Socrates-proxy, a Secure Web Proxy.",
   "version": "1.8.12",
   "private": false,
   "homepage": "https://github.com/Leask/socrates",
