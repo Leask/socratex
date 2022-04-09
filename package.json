@@ -7,7 +7,7 @@
   "main": "index.mjs",
   "type": "module",
   "bin": {
-    "bistrot": "main.mjs"
+    "socrates-x": "main.mjs"
   },
   "engines": {
     "node": ">=16.x"
