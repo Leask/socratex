@@ -30,7 +30,7 @@ const ensureDomain = async () => {
 const ensureToken = async () => {
     let token = (await storage.getConfig())?.config?.token;
     if (!token) {
-        token = encryption.randomString(64);
+        token = encryption.randomString(32);
         await storage.setConfig({ token });
     }
     return token;
