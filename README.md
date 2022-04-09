@@ -1,15 +1,16 @@
-# Intro
+# Socrates
 
-**Socrates** extends the native [net.createServer](https://nodejs.org/api/net.html#net_net_createserver_options_connectionlistener) and it acts as a **real** transparent http-proxy.
+A Secure Web Proxy. Fast, secure, and easy to use.
 
-This module was built on top of TCP-level to avoid header-stripping problem of nodejs http(s)-modules.
+Socrates extends the native [net.createServer](https://nodejs.org/api/net.html#net_net_createserver_options_connectionlistener), and it acts as a real transparent HTTPS-proxy built on top of TCP-level. It's an real HTTPS proxy, not HTTPS over HTTP. It allows upstream client-request dynamically to other proxies or works as a single layer encrypted proxy. It supports [Basic Proxy-Authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Proxy-Authorization) and Token-Baased-Authentication as default.
 
-It allows to upstream client-request dynamically to other proxies, or to certain iFace, and more...
+# Try it out
 
-It supports [Basic Proxy-Authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Proxy-Authorization).
+```bash
+$ npx socrates -h
+```
 
 
-# Quick Start
 
 ## Install
 
