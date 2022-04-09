@@ -8,6 +8,7 @@ import {
 const meta = await utilitas.which();
 const [logWithTime, acmeChallenge] = [{ time: true }, { url: null, key: null }];
 const warning = message => utilitas.log(message, 'WARNING');
+
 const argv = {
     domain: '', http: false, listen: '', port: 0, getStatus: storage.getConfig,
     setStatus: storage.setConfig, ...yargsParser(process.argv.slice(2)),
@@ -30,7 +31,7 @@ const ensureDomain = async () => {
 const ensureToken = async () => {
     let token = (await storage.getConfig())?.config?.token;
     if (!token) {
-        token = encryption.randomString(32);
+        token = encryption.token();
         await storage.setConfig({ token });
     }
     return token;
@@ -91,7 +92,6 @@ if (_socrates.token) {
 }
 
 globalThis.socrates = new Socrates(argv);
-
 socrates.listen(port, argv.listen, async () => {
     const { add } = getAddress(
         _socrates.https ? consts.HTTPS : consts.HTTP, socrates
@@ -120,16 +120,15 @@ if (_socrates.https) {
     }
 } else { warning('HTTP-only mode is not recommended.'); }
 
-let pacAdd = `${_socrates.https ? consts.HTTPS : consts.HTTP}://`
-    + _socrates.domain;
+await web.init(argv);
 
+let webAdd = `${_socrates.https ? consts.HTTPS : consts.HTTP}://`
+    + _socrates.domain;
 if (_socrates.https && port === consts.HTTPS_PORT) { }
 else if (!_socrates.https && port === consts.HTTP_PORT) { }
-else { pacAdd += `:${port}`; }
+else { webAdd += `:${port}`; }
 
-pacAdd += `/wpad.dat?token=${_socrates.token}`;
-utilitas.log(`PAC: ${pacAdd}`, meta?.name);
-
-await web.init(argv);
+utilitas.log(`PAC: ${webAdd}/wpad.dat?token=${_socrates.token}`, meta?.name);
+utilitas.log(`Log: ${webAdd}/log?token=${_socrates.token}`, meta?.name);
 
 argv.repl && (await import('repl')).start('> ');
