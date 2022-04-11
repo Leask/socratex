@@ -91,13 +91,13 @@ socrates.listen(port, address, async () => {
 
 | Param  | Type                | Description  |
 | ------ | ------------------- | ------------ |
-|[basicAuth] | <code>Function / AsyncFunction</code> | Activate/Handle Proxy-Authentication. Returns or solves to Boolean. |
-|[tokenAuth] | <code>Function / AsyncFunction</code> | Activate/Handle Proxy-Authentication. Returns or solves to Boolean. |
-|[upstream] | <code>Function / AsyncFunction</code> | The proxy to be used to upstreaming requests. Returns String. |
-|[tcpOutgoingAddress] | <code>Function / AsyncFunction</code> | The localAddress to use while sending requests. Returns String |
-|[injectData] | <code>Function / AsyncFunction</code> | The edited data to upstream. Returns Buffer or string |
-|[injectResponse] | <code>Function / AsyncFunction</code> | The edited response to return to connected client. Returns Buffer or string |
-|[keys] | <code>Function / AsyncFunction</code> | The keys to use while handshake. It will work only if intercept is true. Returns Object or false |
+|[basicAuth] | <code>Function / AsyncFunc</code> | Activate/Handle Proxy-Authentication. Returns or solves to Boolean. |
+|[tokenAuth] | <code>Function / AsyncFunc</code> | Activate/Handle Proxy-Authentication. Returns or solves to Boolean. |
+|[upstream] | <code>Function / AsyncFunc</code> | The proxy to be used to upstreaming requests. Returns String. |
+|[tcpOutgoingAddress] | <code>Function / AsyncFunc</code> | The localAddress to use while sending requests. Returns String |
+|[injectData] | <code>Function / AsyncFunc</code> | The edited data to upstream. Returns Buffer or string |
+|[injectResponse] | <code>Function / AsyncFunc</code> | The edited response to return to connected client. Returns Buffer or string |
+|[keys] | <code>Function / AsyncFunc</code> | The keys to use while handshake. It will work only if intercept is true. Returns Object or false |
 |[logLevel] | <code>Number</code> | Default 0 to log all messages. |
 |[intercept] | <code>Boolean</code> | Activate interception of encrypted communications. False as default. |
 
