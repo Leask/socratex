@@ -20,18 +20,18 @@ Assumes that you have a workable Node.js (v16 or above) environment.
 Now let's make the magic happen!
 
 - Modern method:
-    ```bash
-    $ sudo su
-    # cd ~
-    # npx socrates-x --domain=example.com --bypass=cn
-    ```
+```bash
+$ sudo su
+# cd ~
+# npx socrates-x --domain=example.com --bypass=cn
+```
 - Classic method:
-    ```bash
-    $ git clone git@github.com:Leask/socrates.git
-    $ cd socrates
-    $ npm install
-    $ sudo main.mjs --domain=example.com --bypass=cn
-    ```
+```bash
+$ git clone git@github.com:Leask/socrates.git
+$ cd socrates
+$ npm install
+$ sudo main.mjs --domain=example.com --bypass=cn
+```
 
 If every thing works fine, you should see a message like this:
 
