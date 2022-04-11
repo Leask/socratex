@@ -39,7 +39,6 @@ If every thing works fine, you should see a message like this:
 [SOCRATES V1.8.11] https://github.com/Leask/socrates
 [SOCRATES] Secure Web Proxy started at https://example.com:443 (IPv6 ::).
 [SOCRATES] HTTP Server started at http://example.com:80 (IPv6 ::).
-[SOCRATES 2022-04-09T07:00:48.946Z] Restored 0 session(s).
 [SSL] Creating new private-key and CSR...
 [SSL] Done.
 [SSL] Updating certificate...
