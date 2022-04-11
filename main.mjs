@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import http from 'http';
-import yargsParser from 'yargs-parser';
 
 import {
     Socrates, utilitas, consts, ssl, storage, encryption, web,
@@ -13,7 +12,7 @@ const warning = message => utilitas.log(message, 'WARNING');
 
 const argv = {
     domain: '', http: false, address: '', port: 0, getStatus: storage.getConfig,
-    setStatus: storage.setConfig, ...yargsParser(process.argv.slice(2)),
+    setStatus: storage.setConfig, ...utilitas.parseArgv(),
 };
 
 const getAddress = (ptcl, server) => {
