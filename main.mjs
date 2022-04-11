@@ -105,14 +105,6 @@ socrates.listen(port, argv.listen, async () => {
 });
 
 if (_socrates.https) {
-    const ensureCert = async () => {
-        return await ssl.ensureCert(
-            _socrates.domain,
-            async (url, key) => Object.assign(acmeChallenge, { url, key }),
-            async (url) => Object.assign(acmeChallenge, { url: '', key: '' }),
-            { debug: argv.debug }
-        );
-    };
     globalThis.httpd = http.createServer(request);
     httpd.listen(consts.HTTP_PORT, argv.listen, async () => {
         const { add } = getAddress(consts.HTTP, httpd);
@@ -121,10 +113,11 @@ if (_socrates.https) {
     if (['127.0.0.1', '::1', 'localhost'].includes(_socrates.domain)) {
         warning('A public domain is required to get an ACME certs.');
     } else {
-        await ensureCert();
-        setInterval(async () => {
-            await utilitas.ignoreErrFunc(ensureCert, { log: true });
-        }, 1000 * 60 * 10);
+        await ssl.ensureCert(_socrates.domain,
+            async (url, key) => Object.assign(acmeChallenge, { url, key }),
+            async (url) => Object.assign(acmeChallenge, { url: '', key: '' }),
+            { debug: argv.debug }
+        );
     }
 } else { warning('HTTP-only mode is not recommended.'); }
 
