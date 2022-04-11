@@ -74,7 +74,7 @@ if (argv.user && argv.password) {
             && password === argv.password;
         utilitas.log(
             `Authenticate ${result ? 'SUCCESS' : 'FAILED'} => `
-            + `${username}:${utilitas.maskPassword(password)}.`,
+            + `${username}:${utilitas.mask(password)}.`,
             meta?.name, logWithTime
         );
         return result;
@@ -86,7 +86,7 @@ if (_socrates.token) {
         const result = token === _socrates.token;
         utilitas.log(
             `Authenticate ${result ? 'SUCCESS' : 'FAILED'} => `
-            + `TOKEN:${utilitas.maskPassword(token)}.`,
+            + `TOKEN:${utilitas.mask(token)}.`,
             meta?.name, logWithTime
         );
         return result;
