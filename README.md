@@ -59,8 +59,6 @@ You can also use the `log url` to monitor the system's activity.
 
 All args are optional. In most cases, you just need to set the domain name. Of cause, you can also set the `bypass` countries to reduce proxy traffics.
 
-```bash
-
 | Param  | Type                | Description  |
 | ------ | ------------------- | ------------ |
 | domain | <code>String</code> | Domain to deploy the proxy. |
