@@ -72,14 +72,13 @@ All args are optional. In most cases, you just need to set the domain name. Of c
 | port | <code>Number</code> | Default 443 to handle incoming connection. |
 
 
+## Programmable proxy
+
 ```
 ///////////////////////////////////////////////////////////////////////////////////////
 // YOU DON'T NEED TO READ ANYTHING BELOW IF YOU ARE NOT GOING TO CUSTOMIZE THE PROXY //
 ///////////////////////////////////////////////////////////////////////////////////////
 ```
-
-
-## Programmable proxy
 
 You can also use socrates-x as a programmable proxy to meet your own needs.
 
