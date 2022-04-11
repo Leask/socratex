@@ -55,6 +55,20 @@ You can also use the `log url` to monitor the system's activity.
 *Why not use `sudo npx ...` directly? Socrates works at default HTTP (80) and HTTPS (443) ports. You need to be root to listen at these ports on some systems. Because of this issue: https://github.com/npm/cli/issues/3110, if you are in a folder NOT OWN by root, you CAN NOT use `sudo npm ...` or `sudo npx ...` directly to run socrates-x.*
 
 
+## `Command line args` available:
+
+| Param  | Type                | Description  |
+| ------ | ------------------- | ------------ |
+| domain | <code>String</code> | Domain to deploy the proxy. |
+| http | <code>With/Without</code> | Use HTTP-only-mode for testing only. |
+| bypass | <code>String</code> | Bypass IPs in these countries, could be multiple, example: --bypass=CN --bypass=US |
+| user | <code>String</code> | Use `user` and `password` to enable Basic Authorization. |
+| password | <code>String</code> | Use `user` and `password` to enable Basic Authorization. |
+| token | <code>String</code> | Use to enable Token Authorization. |
+| address | <code>String</code> | Activate/Handle Proxy-Authentication. Returns or solves to Boolean. |
+| port | <code>Number</code> | Default 443 to handle incoming connection. |
+
+
 ```
 ///////////////////////////////////////////////////////////////////////////////////////
 // YOU DON'T NEED TO READ ANYTHING BELOW IF YOU ARE NOT GOING TO CUSTOMIZE THE PROXY //

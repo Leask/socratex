@@ -12,7 +12,7 @@ const [logWithTime, acmeChallenge] = [{ time: true }, { url: null, key: null }];
 const warning = message => utilitas.log(message, 'WARNING');
 
 const argv = {
-    domain: '', http: false, listen: '', port: 0, getStatus: storage.getConfig,
+    domain: '', http: false, address: '', port: 0, getStatus: storage.getConfig,
     setStatus: storage.setConfig, ...yargsParser(process.argv.slice(2)),
 };
 
@@ -94,7 +94,7 @@ if (_socrates.token) {
 }
 
 globalThis.socrates = new Socrates(argv);
-socrates.listen(port, argv.listen, async () => {
+socrates.listen(port, argv.address, async () => {
     const { add } = getAddress(
         _socrates.https ? consts.HTTPS : consts.HTTP, socrates
     );
@@ -106,7 +106,7 @@ socrates.listen(port, argv.listen, async () => {
 
 if (_socrates.https) {
     globalThis.httpd = http.createServer(request);
-    httpd.listen(consts.HTTP_PORT, argv.listen, async () => {
+    httpd.listen(consts.HTTP_PORT, argv.address, async () => {
         const { add } = getAddress(consts.HTTP, httpd);
         utilitas.log(`HTTP Server started at ${add}.`, meta?.name);
     });
