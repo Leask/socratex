@@ -2,30 +2,36 @@
 
 A Secure Web Proxy. Fast, secure, and easy to use.
 
-Socrates extends the native [net.createServer](https://nodejs.org/api/net.html#net_net_createserver_options_connectionlistener), and it acts as a real transparent HTTPS-proxy built on top of TCP-level. It's an real HTTPS proxy, not HTTPS over HTTP. It allows upstream client-request dynamically to other proxies or works as a single layer encrypted proxy. It supports [Basic Proxy-Authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Proxy-Authorization) and Token-Baased-Authentication as default.
+Socrates extends the native [net.createServer](https://nodejs.org/api/net.html#net_net_createserver_options_connectionlistener), and it acts as a real transparent HTTPS-proxy built on top of TCP-level.
+
+It's an real HTTPS proxy, not HTTPS over HTTP. It allows upstream client-request dynamically to other proxies or works as a single layer encrypted proxy.
+
+It supports [Basic Proxy-Authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Proxy-Authorization) and Token-Baased-Authentication as default.
+
 
 ## Deploy a Secure Web Proxy within 10 second
 
-You need a domain name and set an A-record pointed to your cloud virtual machine. Usually, that virtual machine can not be located in China. Assumes that you have a workable Node.js (v16 or above) environment.
+You need a domain name and set an A-record pointed to your cloud virtual machine.
+
+Usually, that virtual machine can not be located in China.
+
+Assumes that you have a workable Node.js (v16 or above) environment.
 
 Now let's make the magic happen!
 
-Modern method:
-
-```bash
-$ sudo su
-# cd ~
-# npx socrates-x --domain=example.com --bypass=cn
-```
-
-Classic method:
-
-```bash
-$ git clone git@github.com:Leask/socrates.git
-$ cd socrates
-$ npm install
-$ sudo main.mjs --domain=example.com --bypass=cn
-```
+- Modern method:
+    ```bash
+    $ sudo su
+    # cd ~
+    # npx socrates-x --domain=example.com --bypass=cn
+    ```
+- Classic method:
+    ```bash
+    $ git clone git@github.com:Leask/socrates.git
+    $ cd socrates
+    $ npm install
+    $ sudo main.mjs --domain=example.com --bypass=cn
+    ```
 
 If every thing works fine, you should see a message like this:
 
