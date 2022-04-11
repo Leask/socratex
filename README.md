@@ -48,11 +48,18 @@ If every thing works fine, you should see a message like this:
 [SOCRATES] Log: https://example.com/log?token=959c298e-9f38-b201-2e7e-14af54469889
 ```
 
-Copy the `PAC url` and paste it into your system's `Automatic Proxy Configuration` settings. That is all you need to do. You can also use the `log url` to monitor the system's activity.
+Copy the `PAC url` and paste it into your system's `Automatic Proxy Configuration` settings. That is all you need to do.
+
+You can also use the `log url` to monitor the system's activity.
+
 
 ## Why not use `sudo npx ...` directly?
 
-Socrates works at default HTTP (80) and HTTPS (443) ports. You need to be root to listen at these ports on some systems. Because of this issue: https://github.com/npm/cli/issues/3110, if you are in a folder NOT OWN by root, you CAN NOT use `sudo npm ...` or `sudo npx ...` directly to run socrates-x.
+Socrates works at default HTTP (80) and HTTPS (443) ports.
+
+You need to be root to listen at these ports on some systems.
+
+Because of this issue: https://github.com/npm/cli/issues/3110, if you are in a folder NOT OWN by root, you CAN NOT use `sudo npm ...` or `sudo npx ...` directly to run socrates-x.
 
 
 ## Programmable Proxy
@@ -78,7 +85,7 @@ socrates.listen(port, address, async () => {
 ```
 
 
-## Options Object
+### Options Object
 
 | Param  | Type                | Description  |
 | ------ | ------------------- | ------------ |
@@ -93,7 +100,7 @@ socrates.listen(port, address, async () => {
 |[options.intercept] | <code>Boolean</code> |  Activate interception of encrypted communications. False as default. |
 
 
-## `upstream`, `tcpOutgoingAddress`, `injectData` & `injectResponse` Options
+### `upstream`, `tcpOutgoingAddress`, `injectData` & `injectResponse` Options
 
 The options are functions having follow parameters:
 
@@ -112,7 +119,7 @@ The options are functions having follow parameters:
 - injectResponse-Function need to return a String or buffer for the new received data.
 
 
-## Upstream to other proxies
+### Upstream to other proxies
 
 If you don't want to use the host of active instance self, then you need to upstream connections to another http-proxy.
 This can be done with `upstream` attribute.
@@ -128,7 +135,7 @@ const options = {
 };
 ```
 
-## The Basic Authorization mechanism
+### The Basic Authorization mechanism
 
 This activate basic authorization mechanism.
 The Auth-function will be executed while handling Proxy-Authentications.
@@ -156,7 +163,7 @@ const options = {
 };
 ```
 
-## The Token Authorization mechanism
+### The Token Authorization mechanism
 
 This activate token authorization mechanism.
 The Auth-function will be executed while handling Proxy-Authentications.
@@ -184,11 +191,11 @@ const options = {
 };
 ```
 
-## Interception
+### Interception
 
 This feature is in very early stage, and it's for web development only. The callbacks `injectData` & `injectResponse` could be used to intercept/spoof communication. These functions are executed with the `data` and `session` arguments.
 
-### Intercepting HTTPS
+#### Intercepting HTTPS
 
 The boolean attribute `intercept` allows to break SSL-Communication between Source & Destination. This will activate Security-Alarm by most used browsers.
 
@@ -215,7 +222,7 @@ a-fake-user-agent
 ```
 
 
-## The `keys` Function
+### The `keys` Function
 
 You can use this option to provide your own self-signed certificate.
 
@@ -230,7 +237,7 @@ If no object is returned, then [default keys](https://github.com/Leask/socrates/
 *Note*: This function will be executed before TLS-Handshake.
 
 
-## Session-Instance
+### Session-Instance
 
 The Session-Instance is a Object containing info/data about Tunnel.
 
@@ -242,7 +249,7 @@ It has following useful attributes/methods:
 - isAuthenticated() - Is the session authenticated by user or not.
 - ... (More APIS tobe documented)
 
-### .getConnections()
+#### .getConnections()
 
 ```javascript
 setInterval(() => {
@@ -252,7 +259,7 @@ setInterval(() => {
 ```
 
 
-## Dynamically Routing
+### Dynamically Routing
 
 This example upstreams only requests for ifconfig.me to another proxy, for all other requests will be used localhost.
 
