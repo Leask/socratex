@@ -84,8 +84,11 @@ socrates.listen(port, address, async () => {
 });
 ```
 
+///////////////////////////////////////////////////////////////////////////////////////
+// YOU DON'T NEED TO READ ANYTHING BELOW IF YOU ARE NOT GOING TO CUSTOMIZE THE PROXY //
+///////////////////////////////////////////////////////////////////////////////////////
 
-### Options Object
+### Options object use to customize the proxy
 
 `options` should be an object.
 
