@@ -87,17 +87,19 @@ socrates.listen(port, address, async () => {
 
 ### Options Object
 
+`options` should be an object.
+
 | Param  | Type                | Description  |
 | ------ | ------------------- | ------------ |
-|options | <code>Object</code> |  The options object. |
-|[options.auth] | <code>Function</code> |  Activate/Handle Proxy-Authentication. Returns or solves to Boolean. |
-|[options.upstream] | <code>Function</code> |  The proxy to be used to upstreaming requests. Returns String. |
-|[options.tcpOutgoingAddress] | <code>Function</code> |  The localAddress to use while sending requests. Returns String |
-|[options.injectData] | <code>Function</code> |  The edited data to upstream. Returns Buffer or string |
-|[options.injectResponse] | <code>Function</code> |  The edited response to return to connected client. Returns Buffer or string |
-|[options.keys] | <code>Function</code> |  The keys to use while handshake. It will work only if intercept is true. Returns Object or false |
-|[options.logLevel] | <code>Number</code> |  Default 0 to log all messages. |
-|[options.intercept] | <code>Boolean</code> |  Activate interception of encrypted communications. False as default. |
+|[basicAuth] | <code>Function / AsyncFunction</code> | Activate/Handle Proxy-Authentication. Returns or solves to Boolean. |
+|[tokenAuth] | <code>Function / AsyncFunction</code> | Activate/Handle Proxy-Authentication. Returns or solves to Boolean. |
+|[upstream] | <code>Function / AsyncFunction</code> | The proxy to be used to upstreaming requests. Returns String. |
+|[tcpOutgoingAddress] | <code>Function / AsyncFunction</code> | The localAddress to use while sending requests. Returns String |
+|[injectData] | <code>Function / AsyncFunction / AsyncFunction</code> | The edited data to upstream. Returns Buffer or string |
+|[injectResponse] | <code>Function / AsyncFunction</code> | The edited response to return to connected client. Returns Buffer or string |
+|[keys] | <code>Function / AsyncFunction</code> | The keys to use while handshake. It will work only if intercept is true. Returns Object or false |
+|[logLevel] | <code>Number</code> | Default 0 to log all messages. |
+|[intercept] | <code>Boolean</code> | Activate interception of encrypted communications. False as default. |
 
 
 ### `upstream`, `tcpOutgoingAddress`, `injectData` & `injectResponse` Options
