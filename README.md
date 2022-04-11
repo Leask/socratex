@@ -62,6 +62,13 @@ You need to be root to listen at these ports on some systems.
 Because of this issue: https://github.com/npm/cli/issues/3110, if you are in a folder NOT OWN by root, you CAN NOT use `sudo npm ...` or `sudo npx ...` directly to run socrates-x.
 
 
+```
+///////////////////////////////////////////////////////////////////////////////////////
+// YOU DON'T NEED TO READ ANYTHING BELOW IF YOU ARE NOT GOING TO CUSTOMIZE THE PROXY //
+///////////////////////////////////////////////////////////////////////////////////////
+```
+
+
 ## Programmable Proxy
 
 You can also use socrates-x as a programmable proxy to meed your own needs.
@@ -84,9 +91,6 @@ socrates.listen(port, address, async () => {
 });
 ```
 
-///////////////////////////////////////////////////////////////////////////////////////
-// YOU DON'T NEED TO READ ANYTHING BELOW IF YOU ARE NOT GOING TO CUSTOMIZE THE PROXY //
-///////////////////////////////////////////////////////////////////////////////////////
 
 ### Options object use to customize the proxy
 
