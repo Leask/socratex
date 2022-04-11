@@ -52,14 +52,7 @@ Copy the `PAC url` and paste it into your system's `Automatic Proxy Configuratio
 
 You can also use the `log url` to monitor the system's activity.
 
-
-## Why not use `sudo npx ...` directly?
-
-Socrates works at default HTTP (80) and HTTPS (443) ports.
-
-You need to be root to listen at these ports on some systems.
-
-Because of this issue: https://github.com/npm/cli/issues/3110, if you are in a folder NOT OWN by root, you CAN NOT use `sudo npm ...` or `sudo npx ...` directly to run socrates-x.
+*Why not use `sudo npx ...` directly?*: Socrates works at default HTTP (80) and HTTPS (443) ports. You need to be root to listen at these ports on some systems. Because of this issue: https://github.com/npm/cli/issues/3110, if you are in a folder NOT OWN by root, you CAN NOT use `sudo npm ...` or `sudo npx ...` directly to run socrates-x.
 
 
 ```
