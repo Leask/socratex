@@ -113,11 +113,10 @@ The options are functions having follow parameters:
 
 - upstream-Function need to return/resolve a String with format -> `IP:PORT` or `USER:PWD@IP:PORT` of used http-proxy. If *'localhost'* is returned/resolved, then the host-self will be used as proxy.
 - tcpOutgoingAddress-Function need to return a String with format -> `IP`.
-
-*Note*: These functions will be executed before first tcp-socket-connection is established.
-
 - injectData-Function need to return a String or buffer for the new spoofed data. This will be upstreamed as request.
 - injectResponse-Function need to return a String or buffer for the new received data.
+
+*Note*: These functions will be executed before first tcp-socket-connection is established.
 
 
 ### Upstream to other proxies
@@ -146,9 +145,7 @@ The Auth-function will be executed while handling Proxy-Authentications.
 
 ```javascript
 const options = {
-    basicAuth: async (username, password) => {
-        return username === 'bar' && password === 'foo';
-    }
+    basicAuth: async (user, password) => user === 'bar' && password === 'foo';
 };
 ```
 
@@ -159,17 +156,14 @@ The Auth-function will be executed while handling Proxy-Authentications.
 
 | Param  | Type                | Description  |
 | ------ | ------------------- | ------------ |
-|username | <code>String</code> |  The client username. |
-|password | <code>String</code> |  The client password |
-|session | <code>Session</code> |  Object containing info/data about Tunnel |
+| token | <code>String</code> |  The client token. |
+| session | <code>Session</code> |  Object containing info/data about Tunnel |
 
 *Note*: It needs to return True/False or a **Promise** that resolves to boolean (*isAuthenticated*).
 
 ```javascript
 const options = {
-    tokenAuth: async (token) => {
-        return token === 'a-very-long-token';
-    }
+    tokenAuth: async (token) => token === 'a-very-long-token';
 };
 ```
 
@@ -177,13 +171,12 @@ const options = {
 
 This feature is in very early stage, and it's for web development only. The callbacks `injectData` & `injectResponse` could be used to intercept/spoof communication. These functions are executed with the `data` and `session` arguments.
 
-#### Intercepting HTTPS
+### Intercepting HTTPS
 
 The boolean attribute `intercept` allows to break SSL-Communication between Source & Destination. This will activate Security-Alarm by most used browsers.
 
 ```javascript
-const uaToSwitch = 'curl 7.79.1';
-const switchWith = 'a-fake-user-agent';
+const [uaToSwitch, switchWith] = ['curl 7.79.1', 'a-fake-user-agent'];
 const options = {
     intercept: true,
     injectData(data, session) {
@@ -214,10 +207,9 @@ If no object is returned, then [default keys](https://github.com/Leask/socrates/
 
 | Param  | Type                | Description  |
 | ------ | ------------------- | ------------ |
-|session | <code>Session</code> |  Object containing info/data about Tunnel |
+| session | <code>Session</code> | Object containing info/data about Tunnel. |
 
 *Note*: This function will be executed before TLS-Handshake.
-
 
 ### Session-Instance
 
@@ -231,7 +223,7 @@ It has following useful attributes/methods:
 - isAuthenticated() - Is the session authenticated by user or not.
 - ... (More APIS tobe documented)
 
-#### .getConnections()
+### .getConnections()
 
 ```javascript
 setInterval(() => {
@@ -259,8 +251,7 @@ Testing with `curl`:
 ```bash
 curl -x 127.0.0.1:8080 https://ifconfig.me
 x.x.x.x
-```
-```bash
+
 curl -x 127.0.0.1:8080 https://ifconfig.co
 y.y.y.y
 ```
