@@ -91,15 +91,15 @@ socrates.listen(port, address, async () => {
 
 | Param  | Type                | Description  |
 | ------ | ------------------- | ------------ |
-|`basicAuth` | <code>Function/AsyncFunction</code> | Activate/Handle Proxy-Authentication. Returns or solves to Boolean. |
-|`tokenAuth` | <code>Function/AsyncFunction</code> | Activate/Handle Proxy-Authentication. Returns or solves to Boolean. |
-|`upstream` | <code>Function/AsyncFunction</code> | The proxy to be used to upstreaming requests. Returns String. |
-|`tcpOutgoingAddress` | <code>Function/AsyncFunction</code> | The localAddress to use while sending requests. Returns String |
-|`injectData` | <code>Function/AsyncFunction</code> | The edited data to upstream. Returns Buffer or string |
-|`injectResponse` | <code>Function/AsyncFunction</code> | The edited response to return to connected client. Returns Buffer or string |
-|`keys` | <code>Function/AsyncFunction</code> | The keys to use while handshake. It will work only if intercept is true. Returns Object or false |
-|`logLevel` | <code>Number</code> | Default 0 to log all messages. |
-|`intercept` | <code>Boolean</code> | Activate interception of encrypted communications. False as default. |
+| basicAuth | <code>Function/AsyncFunction</code> | Activate/Handle Proxy-Authentication. Returns or solves to Boolean. |
+| tokenAuth | <code>Function/AsyncFunction</code> | Activate/Handle Proxy-Authentication. Returns or solves to Boolean. |
+| upstream | <code>Function/AsyncFunction</code> | The proxy to be used to upstreaming requests. Returns String. |
+| tcpOutgoingAddress | <code>Function/AsyncFunction</code> | The localAddress to use while sending requests. Returns String. |
+| injectData | <code>Function/AsyncFunction</code> | The edited data to upstream. Returns Buffer or string. |
+| injectResponse | <code>Function/AsyncFunction</code> | The edited response to return to connected client. Returns Buffer or string. |
+| keys | <code>Function/AsyncFunction</code> | The keys to use while handshake. It will work only if intercept is true. Returns Object or false. |
+| logLevel | <code>Number</code> | Default 0 to log all messages. |
+| intercept | <code>Boolean</code> | Activate interception of encrypted communications. False as default. |
 
 
 ### `upstream`, `tcpOutgoingAddress`, `injectData` & `injectResponse` Options
@@ -108,9 +108,8 @@ The options are functions having follow parameters:
 
 | Param  | Type                | Description  |
 | ------ | ------------------- | ------------ |
-|data | <code>Buffer</code> |  The received data. |
-|session | <code>Session</code> |  Object containing info/data about Tunnel |
-
+| data | <code>Buffer</code> | The received data. |
+| session | <code>Session</code> | Object containing info/data about Tunnel. |
 
 - upstream-Function need to return/resolve a String with format -> `IP:PORT` or `USER:PWD@IP:PORT` of used http-proxy. If *'localhost'* is returned/resolved, then the host-self will be used as proxy.
 - tcpOutgoingAddress-Function need to return a String with format -> `IP`.
@@ -127,11 +126,6 @@ If you don't want to use the host of active instance self, then you need to upst
 This can be done with `upstream` attribute.
 
 ```javascript
-const options = {
-    upstream: () => { return 'x.x.x.x:3128'; },
-};
-
-// You can also use an async function:
 const options = {
     upstream: async () => { return 'x.x.x.x:3128'; },
 };
@@ -151,13 +145,6 @@ The Auth-function will be executed while handling Proxy-Authentications.
 *Note*: It needs to return True/False or a **Promise** that resolves to boolean (*isAuthenticated*).
 
 ```javascript
-const options = {
-    basicAuth: (username, password) => {
-        return username === 'bar' && password === 'foo';
-    }
-};
-
-// You can also use an async function:
 const options = {
     basicAuth: async (username, password) => {
         return username === 'bar' && password === 'foo';
@@ -179,13 +166,6 @@ The Auth-function will be executed while handling Proxy-Authentications.
 *Note*: It needs to return True/False or a **Promise** that resolves to boolean (*isAuthenticated*).
 
 ```javascript
-const options = {
-    tokenAuth: (token) => {
-        return token === 'a-very-long-token';
-    }
-};
-
-// You can also use an async function:
 const options = {
     tokenAuth: async (token) => {
         return token === 'a-very-long-token';
