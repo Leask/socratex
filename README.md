@@ -4,9 +4,11 @@ A Secure Web Proxy. Fast, secure, and easy to use.
 
 Socrates extends the native [net.createServer](https://nodejs.org/api/net.html#net_net_createserver_options_connectionlistener), and it acts as a real transparent HTTPS-proxy built on top of TCP-level.
 
-It's an real HTTPS proxy, not HTTPS over HTTP. It allows upstream client-request dynamically to other proxies or works as a single layer encrypted proxy.
+It's a real HTTPS proxy, not HTTPS over HTTP. It allows upstream client-request dynamically to other proxies or works as a single layer encrypted proxy.
 
-It supports [Basic Proxy-Authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Proxy-Authorization) and Token-Baased-Authentication as default.
+Socrates will request and set up the certificate automatically, and it will automatically renew the certificate when it expires. You don't need to worry about the dirty work about HTTPS/SSL.
+
+It supports [Basic Proxy-Authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Proxy-Authorization) and Token-Based-Authentication as default. Socrates will create a new token at the first run, you don't need to worry about it.
 
 
 ## Deploy a Secure Web Proxy within 10 second
@@ -33,7 +35,7 @@ $ npm install
 $ sudo main.mjs --domain=example.com --bypass=cn
 ```
 
-If every thing works fine, you should see a message like this:
+If everything works fine, you should see a message like this:
 
 ```
 [SOCRATES V1.8.11] https://github.com/Leask/socrates
@@ -51,7 +53,7 @@ Copy the `PAC url` and paste it into your system's `Automatic Proxy Configuratio
 
 You can also use the `log url` to monitor the system's activity.
 
-*Why not use `sudo npx ...` directly? Socrates works at default HTTP (80) and HTTPS (443) ports. You need to be root to listen at these ports on some systems. Because of this issue: https://github.com/npm/cli/issues/3110, if you are in a folder NOT OWN by root, you CAN NOT use `sudo npm ...` or `sudo npx ...` directly to run socrates-x.*
+*Why not use `sudo npx ...` directly? Socrates works at default HTTP (80) and HTTPS (443) ports. You need to be root to listen to these ports on some systems. Because of this issue: https://github.com/npm/cli/issues/3110, if you are in a folder NOT OWN by root, you CAN NOT use `sudo npm ...` or `sudo npx ...` directly to run socrates-x.*
 
 
 ## Command line args
@@ -79,13 +81,13 @@ All args are optional. In most cases, you just need to set the domain name. Of c
 
 ## Programmable proxy
 
-You can also use socrates-x as a programmable proxy to meed your own needs.
+You can also use socrates-x as a programmable proxy to meet your own needs.
 
 ```bash
 $ npm i -s socrates-x
 ```
 
-Socrates is a ES6 module, so you can use it in your modern Node.js projects.
+Socrates is an ES6 module, so you can use it in your modern Node.js projects.
 
 ```javascript
 import { Socrates } from 'socrates-x';
