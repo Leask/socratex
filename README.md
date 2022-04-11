@@ -215,15 +215,7 @@ If no object is returned, then [default keys](https://github.com/Leask/socrates/
 
 The Session-Instance is a Object containing info/data about Tunnel.
 
-It has following useful attributes/methods:
-
-- isHttps - Is session encrypted.
-- getTunnelStats() - Get Stats for this tunnel
-- getId() - Get Own ID-Session
-- isAuthenticated() - Is the session authenticated by user or not.
-- ... (More APIS tobe documented)
-
-### .getConnections()
+Use `.getConnections()` to get the current connections.
 
 ```javascript
 setInterval(() => {
@@ -231,6 +223,14 @@ setInterval(() => {
     console.log([new Date()], 'OPEN =>', Object.keys(connections).length)
 }, 3000);
 ```
+
+The connection items in the connections array include useful attributes/methods:
+
+- isHttps - Is session encrypted.
+- getTunnelStats() - Get Stats for this tunnel
+- getId() - Get Own ID-Session
+- isAuthenticated() - Is the session authenticated by user or not.
+- ... (More APIS tobe documented)
 
 
 ### Dynamically Routing
