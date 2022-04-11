@@ -55,7 +55,7 @@ You can also use the `log url` to monitor the system's activity.
 *Why not use `sudo npx ...` directly? Socrates works at default HTTP (80) and HTTPS (443) ports. You need to be root to listen at these ports on some systems. Because of this issue: https://github.com/npm/cli/issues/3110, if you are in a folder NOT OWN by root, you CAN NOT use `sudo npm ...` or `sudo npx ...` directly to run socrates-x.*
 
 
-## `Command line args` available:
+## Command line args
 
 | Param  | Type                | Description  |
 | ------ | ------------------- | ------------ |
@@ -76,7 +76,7 @@ You can also use the `log url` to monitor the system's activity.
 ```
 
 
-## Programmable Proxy
+## Programmable proxy
 
 You can also use socrates-x as a programmable proxy to meed your own needs.
 
@@ -116,7 +116,7 @@ socrates.listen(port, address, async () => {
 | intercept | <code>Boolean</code> | Activate interception of encrypted communications. False as default. |
 
 
-### `upstream`, `tcpOutgoingAddress`, `injectData` & `injectResponse` Options
+### `upstream`, `tcpOutgoingAddress`, `injectData` & `injectResponse` options
 
 The options are functions having follow parameters:
 
@@ -225,9 +225,9 @@ If no object is returned, then [default keys](https://github.com/Leask/socrates/
 
 *Note*: This function will be executed before TLS-Handshake.
 
-### Session-Instance
+### Session-instance
 
-The Session-Instance is a Object containing info/data about Tunnel.
+The Session-instance is a Object containing info/data about Tunnel.
 
 Use `.getConnections()` to get the current connections.
 
@@ -247,7 +247,7 @@ The connection items in the connections array include useful attributes/methods:
 - ... (More APIS tobe documented)
 
 
-### Dynamically Routing
+### Dynamically routing
 
 This example upstreams only requests for ifconfig.me to another proxy, for all other requests will be used localhost.
 
