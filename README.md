@@ -37,15 +37,15 @@ If every thing works fine, you should see a message like this:
 
 ```
 [SOCRATES V1.8.11] https://github.com/Leask/socrates
-[SOCRATES] Secure Web Proxy started at https://on.leaskh.com:443 (IPv6 ::).
-[SOCRATES] HTTP Server started at http://on.leaskh.com:80 (IPv6 ::).
+[SOCRATES] Secure Web Proxy started at https://example.com:443 (IPv6 ::).
+[SOCRATES] HTTP Server started at http://example.com:80 (IPv6 ::).
 [SOCRATES 2022-04-09T07:00:48.946Z] Restored 0 session(s).
 [SSL] Creating new private-key and CSR...
 [SSL] Done.
 [SSL] Updating certificate...
 [SSL] Done.
-[SOCRATES] PAC: https://on.leaskh.com/wpad.dat?token=959c298e-9f38-b201-2e7e-14af54469889
-[SOCRATES] Log: https://on.leaskh.com/log?token=959c298e-9f38-b201-2e7e-14af54469889
+[SOCRATES] PAC: https://example.com/wpad.dat?token=959c298e-9f38-b201-2e7e-14af54469889
+[SOCRATES] Log: https://example.com/log?token=959c298e-9f38-b201-2e7e-14af54469889
 ```
 
 Copy the `PAC url` and paste it into your system's `Automatic Proxy Configuration` settings. That is all you need to do. You can also use the `log url` to monitor the system's activity.
