@@ -72,6 +72,9 @@ All args are optional. In most cases, you just need to set the domain name. Of c
 | port | <code>Number</code> | Default 443 to handle incoming connection. |
 
 
+<details>
+    <summary>Programmable proxy</summary>
+
 ## Programmable proxy
 
 ```
@@ -271,3 +274,5 @@ x.x.x.x
 curl -x 127.0.0.1:8080 https://ifconfig.co
 y.y.y.y
 ```
+
+</details>
