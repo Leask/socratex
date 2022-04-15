@@ -60,8 +60,9 @@ Object.assign(_socrates, {
 });
 
 _socrates.address = (
-    _socrates.https ? consts.HTTPS.toUpperCase() : consts.PROXY
-) + ` ${_socrates.domain}:${port}`;
+    // _socrates.https ? consts.HTTPS.toUpperCase() : consts.PROXY
+    'PROXY'
+) + ` https://${_socrates.domain}:${port}`;
 
 argv.bypass = argv.bypass ? new Set(
     utilitas.ensureArray(argv.bypass).map(item => item.toUpperCase())
