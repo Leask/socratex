@@ -67,30 +67,30 @@ argv.bypass = argv.bypass ? new Set(
     utilitas.ensureArray(argv.bypass).map(item => item.toUpperCase())
 ) : null;
 
-// if (argv.user && argv.password) {
-//     argv.basicAuth = async (username, password) => {
-//         const result = utilitas.insensitiveCompare(username, argv.user)
-//             && password === argv.password;
-//         utilitas.log(
-//             `Authenticate ${result ? 'SUCCESS' : 'FAILED'} => `
-//             + `${username}:${utilitas.mask(password)}.`,
-//             meta?.name, logWithTime
-//         );
-//         return result;
-//     };
-// }
+if (argv.user && argv.password) {
+    argv.basicAuth = async (username, password) => {
+        const result = utilitas.insensitiveCompare(username, argv.user)
+            && password === argv.password;
+        utilitas.log(
+            `Authenticate ${result ? 'SUCCESS' : 'FAILED'} => `
+            + `${username}:${utilitas.mask(password)}.`,
+            meta?.name, logWithTime
+        );
+        return result;
+    };
+}
 
-// if (_socrates.token) {
-//     argv.tokenAuth = async (token) => {
-//         const result = token === _socrates.token;
-//         utilitas.log(
-//             `Authenticate ${result ? 'SUCCESS' : 'FAILED'} => `
-//             + `TOKEN:${utilitas.mask(token)}.`,
-//             meta?.name, logWithTime
-//         );
-//         return result;
-//     };
-// }
+if (_socrates.token) {
+    argv.tokenAuth = async (token) => {
+        const result = token === _socrates.token;
+        utilitas.log(
+            `Authenticate ${result ? 'SUCCESS' : 'FAILED'} => `
+            + `TOKEN:${utilitas.mask(token)}.`,
+            meta?.name, logWithTime
+        );
+        return result;
+    };
+}
 
 globalThis.socrates = new Socrates(argv);
 socrates.listen(port, argv.address, async () => {
