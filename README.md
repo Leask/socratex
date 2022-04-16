@@ -39,15 +39,16 @@ $ sudo main.mjs --domain=example.com --bypass=cn
 If everything works fine, you should see a message like this:
 
 ```
-[SOCRATES V1.8.11] https://github.com/Leask/socrates
+[SOCRATES Vx.y.z] https://github.com/Leask/socrates
 [SOCRATES] Secure Web Proxy started at https://example.com:443 (IPv6 ::).
 [SOCRATES] HTTP Server started at http://example.com:80 (IPv6 ::).
 [SSL] Creating new private-key and CSR...
 [SSL] Done.
 [SSL] Updating certificate...
 [SSL] Done.
-[SOCRATES] PAC: https://example.com/wpad.dat?token=959c298e-9f38-b201-2e7e-14af54469889
-[SOCRATES] Log: https://example.com/log?token=959c298e-9f38-b201-2e7e-14af54469889
+[SOCRATES] PAC:  https://example.com/proxy.pac?token=959c298e-9f38-b201-2e7e-14af54469889
+[SOCRATES] WPAD: https://example.com/wpad.dat?token=959c298e-9f38-b201-2e7e-14af54469889
+[SOCRATES] Log:  https://example.com/log?token=959c298e-9f38-b201-2e7e-14af54469889
 ```
 
 Copy the `PAC url` and paste it into your system's `Automatic Proxy Configuration` settings. That is all you need to do.
