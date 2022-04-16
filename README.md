@@ -12,6 +12,12 @@ It supports [Basic Proxy-Authentication](https://developer.mozilla.org/en-US/doc
 
 <img width="952" alt="Screen Shot 2022-04-15 at 8 47 01 PM" src="https://user-images.githubusercontent.com/233022/163655396-720066ba-cb2e-4bd1-9dbc-d167057e5776.png">
 
+
+## Why another proxy?
+
+First of all, many people in particular countries need proxy software that is easy to deploy and could be used to secure their network traffic. Second, because of the limitation on App Store, especially in China, VPN and proxy software are not allowed to be used. So we need to find a way to avoid censorship without any client apps. Secure Web Proxy is the only choice and a promising one.
+
+
 ## Deploy a Secure Web Proxy within 10 second
 
 You need a domain name and set an A-record pointed to your cloud virtual machine.
