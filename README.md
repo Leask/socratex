@@ -86,11 +86,19 @@ All args are optional. In most cases, you just need to set the domain name. Of c
 
 ### Why not use `sudo npx ...` directly?
 
-Socrates works at default HTTP (80) and HTTPS (443) ports. You need to be root to listen to these ports on some systems. Because of this issue: https://github.com/npm/cli/issues/3110, if you are in a folder NOT OWN by root, you CAN NOT use `sudo npm ...` or `sudo npx ...` directly to run socrates-x.
+Socrates works at default HTTP (80) and HTTPS (443) ports.
+
+You need to be root to listen to these ports on some systems.
+
+Because of this issue: https://github.com/npm/cli/issues/3110, if you are in a folder NOT OWN by root, you CAN NOT use `sudo npm ...` or `sudo npx ...` directly to run socrates-x.
 
 ### Why doesn't work with iOS?
 
-Socrates can be used with `macOS`, `Chrome OS`, `Windows`, `Linux` and `Android`. But it's NOT compatible with iOS currently. Because iOS does not support `Secure Web Proxy` yet. I will keep an eye on this issue and try any possible walk-around solutions.
+Socrates can be used with `macOS`, `Chrome OS`, `Windows`, `Linux` and `Android`.
+
+But it's NOT compatible with iOS currently.
+
+Because iOS does not support `Secure Web Proxy` yet. I will keep an eye on this issue and try any possible walk-around solutions.
 
 <details>
     <summary>Programmable proxy</summary>
