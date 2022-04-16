@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "acme-client": "^4.2.5",
-    "fast-geoip": "^1.1.66",
+    "fast-geoip": "^1.1.67",
     "yargs-parser": "^21.0.1"
   }
 }
