@@ -84,6 +84,10 @@ All args are optional. In most cases, you just need to set the domain name. Of c
 | port | <code>Number</code> | Default 443 to handle incoming connection. |
 
 
+## Limitation
+
+Socrates can be used with `macOS`, `Chrome OS`, `Windows`, `Linux` and `Android`. But it's NOT compatible with iOS currently. Because iOS does not support `Secure Web Proxy` yet. I will keep an eye on this issue and try any possible walk-around solutions.
+
 <details>
     <summary>Programmable proxy</summary>
 
