@@ -2,6 +2,10 @@
 
 A Secure Web Proxy is fast, secure, and easy to use.
 
+<img width="1006" alt="Screen Shot 2022-04-15 at 9 40 44 PM" src="https://user-images.githubusercontent.com/233022/163656944-d6b57fbc-8c0d-4cd9-abe0-f65fd39ee728.png">
+
+<img width="952" alt="Screen Shot 2022-04-15 at 8 47 01 PM" src="https://user-images.githubusercontent.com/233022/163655396-720066ba-cb2e-4bd1-9dbc-d167057e5776.png">
+
 Socrates extends the native [net.createServer](https://nodejs.org/api/net.html#net_net_createserver_options_connectionlistener), and it acts as a real transparent HTTPS-proxy built on top of TCP-level.
 
 It's a real HTTPS proxy, not HTTPS over HTTP. It allows upstream client-request dynamically to other proxies or works as a single layer encrypted proxy.
@@ -9,8 +13,6 @@ It's a real HTTPS proxy, not HTTPS over HTTP. It allows upstream client-request 
 Socrates will request and set up the certificate automatically, and it will automatically renew the certificate when it expires. You don't need to worry about the dirty work about HTTPS/SSL.
 
 It supports [Basic Proxy-Authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Proxy-Authorization) and Token-Based-Authentication as default. Socrates will create a new token at the first run, you don't need to worry about it.
-
-<img width="952" alt="Screen Shot 2022-04-15 at 8 47 01 PM" src="https://user-images.githubusercontent.com/233022/163655396-720066ba-cb2e-4bd1-9dbc-d167057e5776.png">
 
 
 ## Why another proxy?
