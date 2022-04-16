@@ -128,7 +128,8 @@ if (_socrates.https && port === consts.HTTPS_PORT) { }
 else if (!_socrates.https && port === consts.HTTP_PORT) { }
 else { webAdd += `:${port}`; }
 
-utilitas.log(`PAC: ${webAdd}/wpad.dat?token=${_socrates.token}`, meta?.name);
-utilitas.log(`Log: ${webAdd}/log?token=${_socrates.token}`, meta?.name);
+utilitas.log(`PAC:  ${webAdd}/proxy.pac?token=${_socrates.token}`, meta?.name);
+utilitas.log(`WPAD: ${webAdd}/wpad.dat?token=${_socrates.token}`, meta?.name);
+utilitas.log(`Log:  ${webAdd}/log?token=${_socrates.token}`, meta?.name);
 
 argv.repl && (await import('repl')).start('> ');
