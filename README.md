@@ -51,7 +51,7 @@ If everything works fine, you should see a message like this:
 [SOCRATES] Log:  https://example.com/log?token=959c298e-9f38-b201-2e7e-14af54469889
 ```
 
-Copy the `PAC url` and paste it into your system's `Automatic Proxy Configuration` settings. That is all you need to do.
+Copy the `PAC url` or `WPAD url` and paste it into your system's `Automatic Proxy Configuration` settings. That is all you need to do.
 
 <img width="780" alt="Screen Shot 2022-04-15 at 5 26 22 PM" src="https://user-images.githubusercontent.com/233022/163655554-a5695c06-97c4-40e9-92d9-dec89bf69805.png">
 
