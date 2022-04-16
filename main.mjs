@@ -6,7 +6,7 @@ import {
     Socrates, utilitas, consts, ssl, storage, encryption, web,
 } from './index.mjs';
 
-const meta = await utilitas.which();
+const meta = await utilitas.which(import.meta.url);
 const [logWithTime, acmeChallenge] = [{ time: true }, { url: null, key: null }];
 const warning = message => utilitas.log(message, 'WARNING');
 
