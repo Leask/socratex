@@ -65,7 +65,7 @@ Copy the `PAC url` or `WPAD url` and paste it into your system's `Automatic Prox
 
 <img width="948" alt="Screen Shot 2022-04-15 at 5 25 41 PM" src="https://user-images.githubusercontent.com/233022/163655559-1272c3cd-ffe0-4947-b290-326a4862db5d.png">
 
-*Tips*: You can also use the `log url` to monitor the system's activity.
+*Note*: You can also use the `log url` to monitor the system's activity.
 
 
 ## Command line args
