@@ -10,6 +10,7 @@ Socrates will request and set up the certificate automatically, and it will auto
 
 It supports [Basic Proxy-Authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Proxy-Authorization) and Token-Based-Authentication as default. Socrates will create a new token at the first run, you don't need to worry about it.
 
+<img width="952" alt="Screen Shot 2022-04-15 at 8 47 01 PM" src="https://user-images.githubusercontent.com/233022/163655396-720066ba-cb2e-4bd1-9dbc-d167057e5776.png">
 
 ## Deploy a Secure Web Proxy within 10 second
 
