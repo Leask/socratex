@@ -2,7 +2,7 @@
 
 A Secure Web Proxy is fast, secure, and easy to use.
 
-<img width="1006" alt="Screen Shot 2022-04-15 at 9 40 44 PM" src="https://user-images.githubusercontent.com/233022/163656944-d6b57fbc-8c0d-4cd9-abe0-f65fd39ee728.png">
+<!--img width="1006" alt="Screen Shot 2022-04-15 at 9 40 44 PM" src="https://user-images.githubusercontent.com/233022/163656944-d6b57fbc-8c0d-4cd9-abe0-f65fd39ee728.png"-->
 
 <img width="952" alt="Screen Shot 2022-04-15 at 8 47 01 PM" src="https://user-images.githubusercontent.com/233022/163655396-720066ba-cb2e-4bd1-9dbc-d167057e5776.png">
 
