@@ -52,9 +52,9 @@ If everything works fine, you should see a message like this:
 
 Copy the `PAC url` and paste it into your system's `Automatic Proxy Configuration` settings. That is all you need to do.
 
-<img width="780" alt="Screen Shot 2022-04-15 at 5 26 22 PM" src="https://user-images.githubusercontent.com/233022/163655468-cec75630-8a8a-40eb-8acd-a50743b90bb3.png">
+<img width="780" alt="Screen Shot 2022-04-15 at 5 26 22 PM" src="https://user-images.githubusercontent.com/233022/163655554-a5695c06-97c4-40e9-92d9-dec89bf69805.png">
 
-<img width="948" alt="Screen Shot 2022-04-15 at 5 25 41 PM" src="https://user-images.githubusercontent.com/233022/163655472-c5623d29-012d-4853-a911-1b210d5c3533.png">
+<img width="948" alt="Screen Shot 2022-04-15 at 5 25 41 PM" src="https://user-images.githubusercontent.com/233022/163655559-1272c3cd-ffe0-4947-b290-326a4862db5d.png">
 
 You can also use the `log url` to monitor the system's activity.
 
