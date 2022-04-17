@@ -1,17 +1,21 @@
 #!/usr/bin/env node
 
+import { cpus } from 'os';
+import cluster from 'cluster';
 import http from 'http';
 
 import {
-    Socrates, utilitas, consts, ssl, storage, encryption, web,
+    consts, encryption, event, Socrates, ssl, storage, utilitas, web,
 } from './index.mjs';
 
 const meta = await utilitas.which(import.meta.url);
 const [logWithTime, acmeChallenge] = [{ time: true }, { url: null, key: null }];
 const warning = message => utilitas.log(message, 'WARNING');
+const cleanTitle = str => str.replace('-x', '');
+const [MESSAGE, SSL_RESET] = ['message', 'SSL_RESET'];
 
 const argv = {
-    domain: '', http: false, address: '', port: 0, getStatus: storage.getConfig,
+    address: '', domain: '', http: false, port: 0, getStatus: storage.getConfig,
     setStatus: storage.setConfig, ...utilitas.parseArgv(),
 };
 
@@ -48,8 +52,12 @@ const request = async (req, res) => {
     }).end();
 };
 
-utilitas.log(`${meta.homepage}`, `${meta?.title}.*`);
+const boardcast = (action, data) =>
+    _socrates.processes.map(x => x.send({ action, data }));
+
 globalThis._socrates = { https: argv.https = !argv.http };
+meta.name = cleanTitle(meta.name);
+meta.title = cleanTitle(meta.title);
 
 const port = argv.port || (
     _socrates.https ? consts.HTTPS_PORT : consts.HTTP_PORT
@@ -92,44 +100,62 @@ if (_socrates.token) {
     };
 }
 
-globalThis.socrates = new Socrates(argv);
-socrates.listen(port, argv.address, async () => {
-    const { add } = getAddress(
-        _socrates.https ? consts.HTTPS : consts.HTTP, socrates
-    );
-    utilitas.log(
-        `${_socrates.https ? 'Secure ' : ''}Web Proxy started at ${add}.`,
-        meta?.name
-    );
-});
+if (cluster.isPrimary) {
+    utilitas.log(`${meta.homepage}`, `${meta?.title}.*`);
 
-if (_socrates.https) {
-    globalThis.httpd = http.createServer(request);
-    httpd.listen(consts.HTTP_PORT, argv.address, async () => {
-        const { add } = getAddress(consts.HTTP, httpd);
-        utilitas.log(`HTTP Server started at ${add}.`, meta?.name);
-    });
-    if (['127.0.0.1', '::1', 'localhost'].includes(_socrates.domain)) {
-        warning('A public domain is required to get an ACME certs.');
-    } else {
-        await ssl.ensureCert(_socrates.domain,
-            async (url, key) => Object.assign(acmeChallenge, { url, key }),
-            async (url) => Object.assign(acmeChallenge, { url: '', key: '' }),
-            { debug: argv.debug }
+    if (_socrates.https) {
+        globalThis.httpd = http.createServer(request);
+        httpd.listen(consts.HTTP_PORT, argv.address, async () => {
+            const { add } = getAddress(consts.HTTP, httpd);
+            utilitas.log(`HTTP Server started at ${add}.`, meta?.name);
+        });
+        if (['127.0.0.1', '::1', 'localhost'].includes(_socrates.domain)) {
+            warning('A public domain is required to get an ACME certs.');
+        } else {
+            await ssl.init(_socrates.domain,
+                async (url, key) => Object.assign(acmeChallenge, { url, key }),
+                async (url) => Object.assign(acmeChallenge, { url: '', key: '' }),
+                async () => boardcast(SSL_RESET),
+                { debug: argv.debug }
+            );
+        }
+    } else { warning('HTTP-only mode is not recommended.'); }
+
+    await web.init(argv);
+    let webAdd = `${_socrates.https ? consts.HTTPS : consts.HTTP}://`
+        + _socrates.domain;
+    if (_socrates.https && port === consts.HTTPS_PORT) { }
+    else if (!_socrates.https && port === consts.HTTP_PORT) { }
+    else { webAdd += `:${port}`; }
+    utilitas.log(`PAC:  ${webAdd}/proxy.pac?token=${_socrates.token}`, meta?.name);
+    utilitas.log(`WPAD: ${webAdd}/wpad.dat?token=${_socrates.token}`, meta?.name);
+    utilitas.log(`Log:  ${webAdd}/log?token=${_socrates.token}`, meta?.name);
+    argv.repl && (await import('repl')).start('> ');
+
+    cluster.on('exit', (worker, code, signal) => {
+        utilitas.log(
+            `Process ${worker.process.pid} ended: ${code} - ${signal}.`,
+            meta?.name
         );
-    }
-} else { warning('HTTP-only mode is not recommended.'); }
+    });
+    _socrates.processes = cpus().map(cluster.fork);
+} else {
+    globalThis.socrates = new Socrates(argv);
+    socrates.listen(port, argv.address, async () => {
+        const { add } = getAddress(
+            _socrates.https ? consts.HTTPS : consts.HTTP, socrates
+        );
+        utilitas.log(
+            `${_socrates.https ? 'Secure ' : ''}Web Proxy started at ${add}.`,
+            `PID-${process.pid}`
+        );
+    });
 
-await web.init(argv);
-
-let webAdd = `${_socrates.https ? consts.HTTPS : consts.HTTP}://`
-    + _socrates.domain;
-if (_socrates.https && port === consts.HTTPS_PORT) { }
-else if (!_socrates.https && port === consts.HTTP_PORT) { }
-else { webAdd += `:${port}`; }
-
-utilitas.log(`PAC:  ${webAdd}/proxy.pac?token=${_socrates.token}`, meta?.name);
-utilitas.log(`WPAD: ${webAdd}/wpad.dat?token=${_socrates.token}`, meta?.name);
-utilitas.log(`Log:  ${webAdd}/log?token=${_socrates.token}`, meta?.name);
-
-argv.repl && (await import('repl')).start('> ');
+    process.on(MESSAGE, async (msg) => {
+        switch (msg?.action) {
+            case SSL_RESET:
+                console.log('got reset notification');
+                return ssl.resetCurCert();
+        }
+    });
+}
