@@ -5,14 +5,13 @@ import cluster from 'cluster';
 import http from 'http';
 
 import {
-    consts, encryption, event, Socrates, ssl, storage, utilitas, web,
+    consts, encryption, Socrates, ssl, storage, utilitas, web
 } from './index.mjs';
 
 const meta = await utilitas.which(import.meta.url);
 const [logWithTime, acmeChallenge] = [{ time: true }, { url: null, key: null }];
 const warning = message => utilitas.log(message, 'WARNING');
 const cleanTitle = str => str.replace('-x', '');
-// const [MESSAGE, SSL_RESET] = ['message', 'SSL_RESET'];
 
 const argv = {
     address: '', domain: '', http: false, port: 0, getStatus: storage.getConfig,
@@ -51,9 +50,6 @@ const request = async (req, res) => {
         Location: `${consts.HTTPS}://${_socrates.domain}${req.url}`
     }).end();
 };
-
-// const boardcast = (action, data) =>
-//     _socrates.processes.map(x => x.send({ action, data }));
 
 globalThis._socrates = { https: argv.https = !argv.http };
 meta.name = cleanTitle(meta.name);
@@ -120,7 +116,6 @@ if (cluster.isPrimary) {
         }
     } else { warning('HTTP-only mode is not recommended.'); }
 
-    await web.init(argv);
     let webAdd = `${_socrates.https ? consts.HTTPS : consts.HTTP}://`
         + _socrates.domain;
     if (_socrates.https && port === consts.HTTPS_PORT) { }
@@ -129,8 +124,6 @@ if (cluster.isPrimary) {
     utilitas.log(`PAC:  ${webAdd}/proxy.pac?token=${_socrates.token}`, meta?.name);
     utilitas.log(`WPAD: ${webAdd}/wpad.dat?token=${_socrates.token}`, meta?.name);
     utilitas.log(`Log:  ${webAdd}/log?token=${_socrates.token}`, meta?.name);
-    argv.repl && (await import('repl')).start('> ');
-
     cluster.on('exit', (worker, code, signal) => {
         utilitas.log(
             `Process ${worker.process.pid} ended: ${code} - ${signal}.`,
@@ -138,6 +131,9 @@ if (cluster.isPrimary) {
         );
     });
     _socrates.processes = cpus().map(cluster.fork);
+    let [responded, cpuCount] = [0, cpus().length];
+    cluster.on('listening', (_) => (++responded >= cpuCount) && web.init(argv));
+    argv.repl && (await import('repl')).start('> ');
 } else {
     globalThis.socrates = new Socrates(argv);
     socrates.listen(port, argv.address, async () => {
@@ -149,10 +145,4 @@ if (cluster.isPrimary) {
             `PID-${process.pid}`
         );
     });
-
-    // process.on(MESSAGE, async (msg) => {
-    //     switch (msg?.action) {
-    //         case SSL_RESET: return ssl.resetCurCert();
-    //     }
-    // });
 }
