@@ -12,7 +12,7 @@ const meta = await utilitas.which(import.meta.url);
 const [logWithTime, acmeChallenge] = [{ time: true }, { url: null, key: null }];
 const warning = message => utilitas.log(message, 'WARNING');
 const cleanTitle = str => str.replace('-x', '');
-const [MESSAGE, SSL_RESET] = ['message', 'SSL_RESET'];
+// const [MESSAGE, SSL_RESET] = ['message', 'SSL_RESET'];
 
 const argv = {
     address: '', domain: '', http: false, port: 0, getStatus: storage.getConfig,
@@ -52,8 +52,8 @@ const request = async (req, res) => {
     }).end();
 };
 
-const boardcast = (action, data) =>
-    _socrates.processes.map(x => x.send({ action, data }));
+// const boardcast = (action, data) =>
+//     _socrates.processes.map(x => x.send({ action, data }));
 
 globalThis._socrates = { https: argv.https = !argv.http };
 meta.name = cleanTitle(meta.name);
@@ -115,7 +115,6 @@ if (cluster.isPrimary) {
             await ssl.init(_socrates.domain,
                 async (url, key) => Object.assign(acmeChallenge, { url, key }),
                 async (url) => Object.assign(acmeChallenge, { url: '', key: '' }),
-                async () => boardcast(SSL_RESET),
                 { debug: argv.debug }
             );
         }
@@ -151,11 +150,9 @@ if (cluster.isPrimary) {
         );
     });
 
-    process.on(MESSAGE, async (msg) => {
-        switch (msg?.action) {
-            case SSL_RESET:
-                console.log('got reset notification');
-                return ssl.resetCurCert();
-        }
-    });
+    // process.on(MESSAGE, async (msg) => {
+    //     switch (msg?.action) {
+    //         case SSL_RESET: return ssl.resetCurCert();
+    //     }
+    // });
 }
