@@ -5,7 +5,7 @@ import cluster from 'cluster';
 import http from 'http';
 
 import {
-    consts, encryption, Socrates, ssl, storage, utilitas, web
+    consts, encryption, event, Socrates, ssl, storage, utilitas, web
 } from './index.mjs';
 
 const meta = await utilitas.which(import.meta.url);
@@ -125,13 +125,18 @@ if (cluster.isPrimary) {
     utilitas.log(`WPAD: ${webAdd}/wpad.dat?token=${_socrates.token}`, meta?.name);
     utilitas.log(`Log:  ${webAdd}/log?token=${_socrates.token}`, meta?.name);
     cluster.on('exit', (worker, code, signal) => {
-        utilitas.log(
-            `Process ${worker.process.pid} ended: ${code} - ${signal}.`,
-            meta?.name
-        );
+        utilitas.log(`Process ${worker.process.pid} ended: ${code}.`, meta?.name);
+        for (let i = _socrates.processes.length - 1; i >= 0; i--) {
+            _socrates.processes[i].isDead() && _socrates.processes.splice(i, 1);
+        }
     });
-    _socrates.processes = cpus().map(cluster.fork);
+    _socrates.processes = [];
     let [responded, cpuCount] = [0, cpus().length];
+    await event.loop(async () => {
+        while (Object.keys(_socrates.processes).length < cpuCount) {
+            _socrates.processes.push(cluster.fork());
+        }
+    }, 1, 10, 0, utilitas.basename(import.meta.url), { silent: true });
     cluster.on('listening', (_) => (++responded >= cpuCount) && web.init(argv));
     argv.repl && (await import('repl')).start('> ');
 } else {
