@@ -2,6 +2,8 @@
 
 A Secure Web Proxy is fast, secure, and easy to use.
 
+*This project is under active development. Everything may change soon.*
+
 <!--img width="1006" alt="Screen Shot 2022-04-15 at 9 40 44 PM" src="https://user-images.githubusercontent.com/233022/163656944-d6b57fbc-8c0d-4cd9-abe0-f65fd39ee728.png"-->
 
 Socrates extends the native [net.createServer](https://nodejs.org/api/net.html#net_net_createserver_options_connectionlistener), and it acts as a real transparent HTTPS-proxy built on top of TCP-level.
