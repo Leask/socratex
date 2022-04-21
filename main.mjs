@@ -35,7 +35,7 @@ const ensureDomain = async () => {
 const ensureToken = async () => {
     let token = (await storage.getConfig())?.config?.token;
     if (!token) {
-        token = encryption.token();
+        token = encryption.fakeUuid();
         await storage.setConfig({ token });
     }
     return token;
