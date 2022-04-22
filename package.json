@@ -40,6 +40,6 @@
   "dependencies": {
     "acme-client": "^4.2.5",
     "fast-geoip": "^1.1.68",
-    "yargs-parser": "^21.0.1"
+    "nopt": "^5.0.0"
   }
 }

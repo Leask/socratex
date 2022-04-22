@@ -3,6 +3,7 @@
 import { cpus } from 'os';
 import cluster from 'cluster';
 import http from 'http';
+import nopt from 'nopt';
 
 import {
     consts, encryption, event, Socrates, ssl, storage, utilitas, web
@@ -15,7 +16,7 @@ const cleanTitle = str => str.replace('-x', '');
 
 const argv = {
     address: '', domain: '', http: false, port: 0, getStatus: storage.getConfig,
-    setStatus: storage.setConfig, ...utilitas.parseArgv(),
+    setStatus: storage.setConfig, ...nopt(),
 };
 
 const getAddress = (ptcl, server) => {
