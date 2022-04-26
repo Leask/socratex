@@ -47,8 +47,10 @@ $ sudo main.mjs --domain=example.com --bypass=cn
 ```
 - With Docker:
 ```bash
-# docker run -it --rm -v /Users/leask/socrates:/socrates -p 80:80 -p 443:443 leask/socrates:latest
+$ docker pull leask/socrates
+$ docker run -p 80:80 -p 8443:443 leask/socrates
 ```
+**Note: Use `-v ~/.socrates-x.json:/root/.socrates-x.json` to keep the certificate and settings while exiting.**
 
 If everything works fine, you should see a message like this:
 
