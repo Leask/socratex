@@ -2,7 +2,7 @@
 /assets
 /build.mjs
 /debug.mjs
-/index.html
+/Dockerfile
 /keys/README.md
 /package-lock.json
 /test.mjs
