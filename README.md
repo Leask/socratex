@@ -1,6 +1,6 @@
 # Socrates
 
-A Secure Web Proxy is fast, secure, and easy to use.
+A Secure Web Proxy. Which is fast, secure, and easy to use.
 
 *This project is under active development. Everything may change soon.*
 
