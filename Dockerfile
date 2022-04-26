@@ -10,3 +10,8 @@ LABEL org.opencontainers.image.licenses=MIT
 LABEL org.opencontainers.image.source="https://github.com/Leask/socrates"
 
 RUN npm install -g socrates-x
+
+EXPOSE 80
+EXPOSE 443
+
+ENTRYPOINT ["socrates-x"]
