@@ -13,6 +13,7 @@ const meta = await utilitas.which(import.meta.url);
 const [logWithTime, acmeChallenge] = [{ time: true }, { url: null, key: null }];
 const warning = message => utilitas.log(message, 'WARNING');
 const cleanTitle = str => str.replace('-x', '');
+const cpuCount = cpus().length;
 
 const argv = {
     address: '', domain: '', http: false, port: 0, getStatus: storage.getConfig,
@@ -106,7 +107,7 @@ if (cluster.isPrimary) {
             const { add } = getAddress(consts.HTTP, httpd);
             utilitas.log(`HTTP Server started at ${add}.`, meta?.name);
         });
-        if (['127.0.0.1', '::1', 'localhost'].includes(_socrates.domain)) {
+        if (web.isLocalhost(_socrates.domain)) {
             warning('A public domain is required to get an ACME certs.');
         } else {
             await ssl.init(_socrates.domain,
@@ -132,13 +133,13 @@ if (cluster.isPrimary) {
         }
     });
     _socrates.processes = [];
-    let [responded, cpuCount] = [0, cpus().length];
+    let responded = 0;
     await event.loop(async () => {
         while (Object.keys(_socrates.processes).length < cpuCount) {
             _socrates.processes.push(cluster.fork());
         }
-    }, 1, 10, 0, utilitas.basename(import.meta.url), { silent: true });
-    cluster.on('listening', (_) => (++responded >= cpuCount) && web.init(argv));
+    }, 3, 10, 0, utilitas.basename(import.meta.url), { silent: true });
+    cluster.on('listening', _ => ++responded >= cpuCount && web.init(argv));
     argv.repl && (await import('repl')).start('> ');
 } else {
     globalThis.socrates = new Socrates(argv);
