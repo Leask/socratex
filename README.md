@@ -52,7 +52,9 @@ $ sudo main.mjs --domain=example.com --bypass=cn
 ```bash
 $ touch ~/.socrates-x.json
 $ docker pull leask/socrates
-$ docker run -d --restart=always -v ~/.socrates-x.json:/root/.socrates-x.json -p 80:80 -p 443:443 leask/socrates --domain=example.com --bypass=cn
+$ docker run -d --restart=always -p 80:80 -p 443:443 \
+    -v ~/.socrates-x.json:/root/.socrates-x.json \
+    leask/socrates --domain=example.com --bypass=cn
 ```
 
 If everything works fine, you should see a message like this:
