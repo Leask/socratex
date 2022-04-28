@@ -1,4 +1,4 @@
-const { Socrates } = require('../../index.mjs');
+const { Socratex } = require('../../index.mjs');
 
 function sleep(ms) {
     return new Promise(function(res, rej) {
@@ -6,7 +6,7 @@ function sleep(ms) {
     });
 }
 
-const server = new Socrates({
+const server = new Socratex({
     upstream: async function(data, connection) {
         // await sleep(1000);
         if (~(data.toString().indexOf('ifconfig.me'))) {

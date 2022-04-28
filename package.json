@@ -1,13 +1,13 @@
 {
-  "name": "socrates-x",
+  "name": "socratex",
   "description": "A Secure Web Proxy. Which is fast, secure, and easy to use.",
   "version": "1.8.35",
   "private": false,
-  "homepage": "https://github.com/Leask/socrates",
+  "homepage": "https://github.com/Leask/socratex",
   "main": "index.mjs",
   "type": "module",
   "bin": {
-    "socrates-x": "main.mjs"
+    "socratex": "main.mjs"
   },
   "engines": {
     "node": ">=16.x"
@@ -21,8 +21,8 @@
     "build": "npm run updep && ( git commit -am 'update dependencies' || true )",
     "pub": "npm run build && npm run gitsync",
     "beta": "npm publish --tag beta",
-    "docker-build": "docker build --no-cache -t leask/socrates .",
-    "docker-push": "docker push leask/socrates",
+    "docker-build": "docker build --no-cache -t leask/socratex .",
+    "docker-push": "docker push leask/socratex",
     "docker-publish": "npm run docker-build && npm run docker-push"
   },
   "keywords": [
@@ -38,7 +38,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Leask/socrates.git"
+    "url": "https://github.com/Leask/socratex.git"
   },
   "dependencies": {
     "acme-client": "^4.2.5",

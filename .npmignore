@@ -1,4 +1,5 @@
 .history
+/.github
 /assets
 /build.mjs
 /debug.mjs

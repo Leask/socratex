@@ -1,7 +1,7 @@
-# Socrates
+# Socratex
 
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue)](./LICENSE)
-[![Node.js Package, Docker Image](https://github.com/Leask/socrates/actions/workflows/build.yml/badge.svg)](https://github.com/Leask/socrates/actions/workflows/build.yml)
+[![Node.js Package, Docker Image](https://github.com/Leask/socratex/actions/workflows/build.yml/badge.svg)](https://github.com/Leask/socratex/actions/workflows/build.yml)
 
 A Secure Web Proxy. Which is fast, secure, and easy to use.
 
@@ -9,13 +9,13 @@ A Secure Web Proxy. Which is fast, secure, and easy to use.
 
 <!--img width="1006" alt="Screen Shot 2022-04-15 at 9 40 44 PM" src="https://user-images.githubusercontent.com/233022/163656944-d6b57fbc-8c0d-4cd9-abe0-f65fd39ee728.png"-->
 
-Socrates extends the native [net.createServer](https://nodejs.org/api/net.html#net_net_createserver_options_connectionlistener), and it acts as a real transparent HTTPS-proxy built on top of TCP-level.
+Socratex extends the native [net.createServer](https://nodejs.org/api/net.html#net_net_createserver_options_connectionlistener), and it acts as a real transparent HTTPS-proxy built on top of TCP-level.
 
 It's a real HTTPS proxy, not HTTPS over HTTP. It allows upstream client-request dynamically to other proxies or works as a single layer encrypted proxy.
 
-Socrates will request and set up the certificate automatically, and it will automatically renew the certificate when it expires. You don't need to worry about the dirty work about HTTPS/SSL.
+Socratex will request and set up the certificate automatically, and it will automatically renew the certificate when it expires. You don't need to worry about the dirty work about HTTPS/SSL.
 
-It supports [Basic Proxy-Authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Proxy-Authorization) and Token-Based-Authentication as default. Socrates will create a new token at the first run, you don't need to worry about it.
+It supports [Basic Proxy-Authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Proxy-Authorization) and Token-Based-Authentication as default. Socratex will create a new token at the first run, you don't need to worry about it.
 
 <img width="952" alt="Screen Shot 2022-04-15 at 8 47 01 PM" src="https://user-images.githubusercontent.com/233022/163655396-720066ba-cb2e-4bd1-9dbc-d167057e5776.png">
 
@@ -39,35 +39,35 @@ Now let's make the magic happen!
 ```bash
 $ sudo su
 # cd ~
-# npx socrates-x --domain=example.com --bypass=cn
+# npx socratex --domain=example.com --bypass=cn
 ```
 - Classic method:
 ```bash
-$ git clone git@github.com:Leask/socrates.git
-$ cd socrates
+$ git clone git@github.com:Leask/socratex.git
+$ cd socratex
 $ npm install
 $ sudo main.mjs --domain=example.com --bypass=cn
 ```
 - With Docker:
 ```bash
-$ touch ~/.socrates-x.json
-$ docker pull leask/socrates
-$ docker run -d --restart=always -v ~/.socrates-x.json:/root/.socrates-x.json -p 80:80 -p 443:443 leask/socrates --domain=example.com --bypass=cn
+$ touch ~/.socratex.json
+$ docker pull leask/socratex
+$ docker run -d --restart=always -v ~/.socratex.json:/root/.socratex.json -p 80:80 -p 443:443 leask/socratex --domain=example.com --bypass=cn
 ```
 
 If everything works fine, you should see a message like this:
 
 ```
-[SOCRATES Vx.y.z] https://github.com/Leask/socrates
-[SOCRATES] Secure Web Proxy started at https://example.com:443 (IPv6 ::).
-[SOCRATES] HTTP Server started at http://example.com:80 (IPv6 ::).
+[SOCRATEX Vx.y.z] https://github.com/Leask/socratex
+[SOCRATEX] Secure Web Proxy started at https://example.com:443 (IPv6 ::).
+[SOCRATEX] HTTP Server started at http://example.com:80 (IPv6 ::).
 [SSL] Creating new private-key and CSR...
 [SSL] Done.
 [SSL] Updating certificate...
 [SSL] Done.
-[SOCRATES] PAC:  https://example.com/proxy.pac?token=959c298e-9f38-b201-2e7e-14af54469889
-[SOCRATES] WPAD: https://example.com/wpad.dat?token=959c298e-9f38-b201-2e7e-14af54469889
-[SOCRATES] Log:  https://example.com/log?token=959c298e-9f38-b201-2e7e-14af54469889
+[SOCRATEX] PAC:  https://example.com/proxy.pac?token=959c298e-9f38-b201-2e7e-14af54469889
+[SOCRATEX] WPAD: https://example.com/wpad.dat?token=959c298e-9f38-b201-2e7e-14af54469889
+[SOCRATEX] Log:  https://example.com/log?token=959c298e-9f38-b201-2e7e-14af54469889
 ```
 
 Copy the `PAC url` or `WPAD url` and paste it into your system's `Automatic Proxy Configuration` settings. That is all you need to do.
@@ -99,11 +99,11 @@ All args are optional. In most cases, you just need to set the domain name. Of c
 
 ### Why not use `sudo npx ...` directly?
 
-Socrates works at default HTTP (80) and HTTPS (443) ports. You need to be root to listen to these ports on some systems. Because of this issue: https://github.com/npm/cli/issues/3110, if you are in a folder NOT OWN by root, you CAN NOT use `sudo npm ...` or `sudo npx ...` directly to run socrates-x.
+Socratex works at default HTTP (80) and HTTPS (443) ports. You need to be root to listen to these ports on some systems. Because of this issue: https://github.com/npm/cli/issues/3110, if you are in a folder NOT OWN by root, you CAN NOT use `sudo npm ...` or `sudo npx ...` directly to run socratex.
 
 ### Why doesn't work with iOS?
 
-Socrates can be used with `macOS`, `Chrome OS`, `Windows`, `Linux` and `Android`. But it's NOT compatible with iOS currently. Because iOS does not support `Secure Web Proxy` yet. I will keep an eye on this issue and try any possible walk-around solutions.
+Socratex can be used with `macOS`, `Chrome OS`, `Windows`, `Linux` and `Android`. But it's NOT compatible with iOS currently. Because iOS does not support `Secure Web Proxy` yet. I will keep an eye on this issue and try any possible walk-around solutions.
 
 
 <details>
@@ -117,22 +117,22 @@ Socrates can be used with `macOS`, `Chrome OS`, `Windows`, `Linux` and `Android`
 ////////////////////////////////////////////////////////////////////////////////
 ```
 
-You can also use socrates-x as a programmable proxy to meet your own needs.
+You can also use socratex as a programmable proxy to meet your own needs.
 
 ```bash
-$ npm i -s socrates-x
+$ npm i -s socratex
 ```
 
-Socrates is an ES6 module, so you can use it in your modern Node.js projects.
+Socratex is an ES6 module, so you can use it in your modern Node.js projects.
 
 ```javascript
-import { Socrates } from 'socrates-x';
+import { Socratex } from 'socratex';
 
 const [port, address, options] = ['4698', '': {}];
 
-const socrates = new Socrates(options);
+const socratex = new Socratex(options);
 
-socrates.listen(port, address, async () => {
+socratex.listen(port, address, async () => {
     console.log('TCP-Proxy-Server started at: ', server.address());
 });
 ```
@@ -256,7 +256,7 @@ You can use this option to provide your own self-signed certificate.
 
 If activated needs to return an Object `{key:'String', cert:'String'}` like [native tls_connect_options.key & tls_connect_options.cert](https://nodejs.org/api/tls.html#tls_tls_connect_options_callback) or `false` statement.
 
-If no object is returned, then [default keys](https://github.com/Leask/socrates/tree/main/keys) will be used to update communication.
+If no object is returned, then [default keys](https://github.com/Leask/socratex/tree/main/keys) will be used to update communication.
 
 | Param  | Type                | Description  |
 | ------ | ------------------- | ------------ |
@@ -272,7 +272,7 @@ Use `.getConnections()` to get the current connections.
 
 ```javascript
 setInterval(() => {
-    const connections = socrates.getConnections();
+    const connections = socratex.getConnections();
     console.log([new Date()], 'OPEN =>', Object.keys(connections).length)
 }, 3000);
 ```

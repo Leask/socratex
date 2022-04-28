@@ -6,7 +6,7 @@ import http from 'http';
 import nopt from 'nopt';
 
 import {
-    consts, encryption, event, Socrates, ssl, storage, utilitas, web
+    consts, encryption, event, Socratex, ssl, storage, utilitas, web
 } from './index.mjs';
 
 const meta = await utilitas.which(import.meta.url);
@@ -22,7 +22,7 @@ const argv = {
 
 const getAddress = (ptcl, server) => {
     const { address, family, port } = server.address();
-    const add = `${ptcl}://${_socrates.domain}:${port} (${family} ${address})`;
+    const add = `${ptcl}://${_socratex.domain}:${port} (${family} ${address})`;
     return { address, family, port, add };
 };
 
@@ -49,25 +49,25 @@ const request = async (req, res) => {
         return res.end(acmeChallenge.key);
     }
     res.writeHead(301, {
-        Location: `${consts.HTTPS}://${_socrates.domain}${req.url}`
+        Location: `${consts.HTTPS}://${_socratex.domain}${req.url}`
     }).end();
 };
 
-globalThis._socrates = { https: argv.https = !argv.http };
+globalThis._socratex = { https: argv.https = !argv.http };
 meta.name = cleanTitle(meta.name);
 meta.title = cleanTitle(meta.title);
 
 const port = argv.port || (
-    _socrates.https ? consts.HTTPS_PORT : consts.HTTP_PORT
+    _socratex.https ? consts.HTTPS_PORT : consts.HTTP_PORT
 );
 
-Object.assign(_socrates, {
+Object.assign(_socratex, {
     domain: await ensureDomain(), token: await ensureToken()
 });
 
-_socrates.address = (
-    _socrates.https ? consts.HTTPS.toUpperCase() : consts.PROXY
-) + ` ${_socrates.domain}:${port}`;
+_socratex.address = (
+    _socratex.https ? consts.HTTPS.toUpperCase() : consts.PROXY
+) + ` ${_socratex.domain}:${port}`;
 
 argv.bypass = argv.bypass ? new Set(
     utilitas.ensureArray(argv.bypass).map(item => item.toUpperCase())
@@ -86,9 +86,9 @@ if (argv.user && argv.password) {
     };
 }
 
-if (_socrates.token) {
+if (_socratex.token) {
     argv.tokenAuth = async (token) => {
-        const result = token === _socrates.token;
+        const result = token === _socratex.token;
         utilitas.log(
             `Authenticate ${result ? 'SUCCESS' : 'FAILED'} => `
             + `TOKEN:${utilitas.mask(token)}.`,
@@ -101,16 +101,16 @@ if (_socrates.token) {
 if (cluster.isPrimary) {
     utilitas.log(`${meta.homepage}`, `${meta?.title}.*`);
 
-    if (_socrates.https) {
+    if (_socratex.https) {
         globalThis.httpd = http.createServer(request);
         httpd.listen(consts.HTTP_PORT, argv.address, async () => {
             const { add } = getAddress(consts.HTTP, httpd);
             utilitas.log(`HTTP Server started at ${add}.`, meta?.name);
         });
-        if (web.isLocalhost(_socrates.domain)) {
+        if (web.isLocalhost(_socratex.domain)) {
             warning('A public domain is required to get an ACME certs.');
         } else {
-            await ssl.init(_socrates.domain,
+            await ssl.init(_socratex.domain,
                 async (url, key) => Object.assign(acmeChallenge, { url, key }),
                 async (url) => Object.assign(acmeChallenge, { url: '', key: '' }),
                 { debug: argv.debug }
@@ -118,37 +118,37 @@ if (cluster.isPrimary) {
         }
     } else { warning('HTTP-only mode is not recommended.'); }
 
-    let webAdd = `${_socrates.https ? consts.HTTPS : consts.HTTP}://`
-        + _socrates.domain;
-    if (_socrates.https && port === consts.HTTPS_PORT) { }
-    else if (!_socrates.https && port === consts.HTTP_PORT) { }
+    let webAdd = `${_socratex.https ? consts.HTTPS : consts.HTTP}://`
+        + _socratex.domain;
+    if (_socratex.https && port === consts.HTTPS_PORT) { }
+    else if (!_socratex.https && port === consts.HTTP_PORT) { }
     else { webAdd += `:${port}`; }
-    utilitas.log(`PAC:  ${webAdd}/proxy.pac?token=${_socrates.token}`, meta?.name);
-    utilitas.log(`WPAD: ${webAdd}/wpad.dat?token=${_socrates.token}`, meta?.name);
-    utilitas.log(`Log:  ${webAdd}/log?token=${_socrates.token}`, meta?.name);
+    utilitas.log(`PAC:  ${webAdd}/proxy.pac?token=${_socratex.token}`, meta?.name);
+    utilitas.log(`WPAD: ${webAdd}/wpad.dat?token=${_socratex.token}`, meta?.name);
+    utilitas.log(`Log:  ${webAdd}/log?token=${_socratex.token}`, meta?.name);
     cluster.on('exit', (worker, code, signal) => {
         utilitas.log(`Process ${worker.process.pid} ended: ${code}.`, meta?.name);
-        for (let i = _socrates.processes.length - 1; i >= 0; i--) {
-            _socrates.processes[i].isDead() && _socrates.processes.splice(i, 1);
+        for (let i = _socratex.processes.length - 1; i >= 0; i--) {
+            _socratex.processes[i].isDead() && _socratex.processes.splice(i, 1);
         }
     });
-    _socrates.processes = [];
+    _socratex.processes = [];
     let responded = 0;
     await event.loop(async () => {
-        while (Object.keys(_socrates.processes).length < cpuCount) {
-            _socrates.processes.push(cluster.fork());
+        while (Object.keys(_socratex.processes).length < cpuCount) {
+            _socratex.processes.push(cluster.fork());
         }
     }, 3, 10, 0, utilitas.basename(import.meta.url), { silent: true });
     cluster.on('listening', _ => ++responded >= cpuCount && web.init(argv));
     argv.repl && (await import('repl')).start('> ');
 } else {
-    globalThis.socrates = new Socrates(argv);
-    socrates.listen(port, argv.address, async () => {
+    globalThis.socratex = new Socratex(argv);
+    socratex.listen(port, argv.address, async () => {
         const { add } = getAddress(
-            _socrates.https ? consts.HTTPS : consts.HTTP, socrates
+            _socratex.https ? consts.HTTPS : consts.HTTP, socratex
         );
         utilitas.log(
-            `${_socrates.https ? 'Secure ' : ''}Web Proxy started at ${add}.`,
+            `${_socratex.https ? 'Secure ' : ''}Web Proxy started at ${add}.`,
             `PID-${process.pid}`
         );
     });

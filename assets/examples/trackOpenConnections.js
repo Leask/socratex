@@ -1,6 +1,6 @@
-const { Socrates } = require('../../index.mjs');
+const { Socratex } = require('../../index.mjs');
 
-const server = new Socrates();
+const server = new Socratex();
 
 //starting server on port 1555
 server.listen(1555, '0.0.0.0', function() {

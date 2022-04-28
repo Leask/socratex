@@ -1,10 +1,10 @@
-const { Socrates } = require('../../index.mjs');
+const { Socratex } = require('../../index.mjs');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
 const toTest = ['http://v4.ident.me/', 'https://v4.ident.me/'];
 
-const server = new Socrates({
+const server = new Socratex({
     intercept: true,
     injectResponse: (data, session) => {
         const ipToSwitch = 'x.x.x.x';
@@ -24,7 +24,7 @@ const server = new Socrates({
 const port = 10001;
 //starting server on port 10001
 server.listen(port, '0.0.0.0', async function() {
-    console.log('socrates was started!', server.address());
+    console.log('socratex was started!', server.address());
 
     for (const singlePath of toTest) {
         const cmd = 'curl' + ' -x localhost:' + port + ' -k ' + singlePath;

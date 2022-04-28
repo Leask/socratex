@@ -1,7 +1,7 @@
-const { Socrates } = require('../index.mjs');
+const { Socratex } = require('../index.mjs');
 
-//init Socrates
-const server = new Socrates({
+//init Socratex
+const server = new Socratex({
     tcpOutgoingAddress: function(data, connection) {
         return 'x.x.x.x'; //using other iFace as default
     }
@@ -9,5 +9,5 @@ const server = new Socrates({
 
 //starting server on port 1555
 server.listen(8080, 'y.y.y.y', function() {
-    console.log('socrates Server was started!', server.address());
+    console.log('socratex Server was started!', server.address());
 });

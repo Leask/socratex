@@ -7,15 +7,15 @@ import * as storage from './lib/storage.mjs';
 import * as utilitas from './lib/utilitas.mjs';
 import * as web from './lib/web.mjs';
 import color from './lib/color.mjs';
-import Socrates from './lib/socrates.mjs';
+import Socratex from './lib/socratex.mjs';
 
-export default Socrates;
+export default Socratex;
 export {
     color,
     consts,
     encryption,
     event,
-    Socrates,
+    Socratex,
     ssl,
     storage,
     utilitas,
