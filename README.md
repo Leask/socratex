@@ -114,7 +114,7 @@ Socratex can be used with `macOS`, `Chrome OS`, `Windows`, `Linux` and `Android`
 
 [![Socrates](https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/David_-_The_Death_of_Socrates.jpg/2880px-David_-_The_Death_of_Socrates.jpg)](https://en.wikipedia.org/wiki/Socrates)
 
-**Image credit: The Death of Socrates, by Jacques-Louis David (1787)**
+*Image credit: The Death of Socrates, by Jacques-Louis David (1787)*
 
 
 <details>
