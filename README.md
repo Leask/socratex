@@ -1,5 +1,7 @@
 # Socrates
 
+[![Node.js Package, Docker Image](https://github.com/Leask/socrates/actions/workflows/build.yml/badge.svg)](https://github.com/Leask/socrates/actions/workflows/build.yml)
+
 A Secure Web Proxy. Which is fast, secure, and easy to use.
 
 *This project is under active development. Everything may change soon.*
