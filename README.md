@@ -50,9 +50,8 @@ $ sudo main.mjs --domain=example.com --bypass=cn
 ```
 - With Docker:
 ```bash
-$ docker pull leask/socrates
-$ docker run -p 80:80 -p 8443:443 leask/socrates
-## Use `-v ~/.socrates-x.json:/root/.socrates-x.json` to keep certs and settings while exiting.
+$ touch ~/.socrates-x.json
+$ docker run -d --restart=always -v ~/.socrates-x.json:/root/.socrates-x.json -p 80:80 -p 443:443 leask/socrates --domain=example.com --bypass=cn
 ```
 
 If everything works fine, you should see a message like this:
