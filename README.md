@@ -52,7 +52,9 @@ $ sudo main.mjs --domain=example.com --bypass=cn
 ```bash
 $ touch ~/.socratex.json
 $ docker pull leask/socratex
-$ docker run -d --restart=always -v ~/.socratex.json:/root/.socratex.json -p 80:80 -p 443:443 leask/socratex --domain=example.com --bypass=cn
+$ docker run -d --restart=always -p 80:80 -p 443:443 \
+    -v ~/.socratex.json:/root/.socratex.json \
+    leask/socratex --domain=example.com --bypass=cn
 ```
 
 If everything works fine, you should see a message like this:
