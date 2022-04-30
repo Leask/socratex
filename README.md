@@ -2,6 +2,7 @@
 
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue)](./LICENSE)
 [![Node.js Package, Docker Image](https://github.com/Leask/socratex/actions/workflows/build.yml/badge.svg)](https://github.com/Leask/socratex/actions/workflows/build.yml)
+[![CodeQL](https://github.com/Leask/socratex/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Leask/socratex/actions/workflows/codeql-analysis.yml)
 
 A Secure Web Proxy. Which is fast, secure, and easy to use.
 
