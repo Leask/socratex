@@ -47,7 +47,7 @@ $ sudo su
 $ git clone git@github.com:Leask/socratex.git
 $ cd socratex
 $ npm install
-$ sudo main.mjs --domain=example.com --bypass=cn
+$ sudo ./main.mjs --domain=example.com --bypass=cn
 ```
 - With Docker:
 ```bash
