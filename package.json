@@ -41,8 +41,8 @@
     "url": "https://github.com/Leask/socratex.git"
   },
   "dependencies": {
-    "acme-client": "^4.2.5",
-    "fast-geoip": "^1.1.68",
-    "nopt": "^5.0.0"
+    "acme-client": "^5.0.0",
+    "fast-geoip": "^1.1.88",
+    "nopt": "^6.0.0"
   }
 }
