@@ -1,7 +1,7 @@
 {
   "name": "socratex",
   "description": "A Secure Web Proxy. Which is fast, secure, and easy to use.",
-  "version": "1.8.49",
+  "version": "1.8.50",
   "private": false,
   "homepage": "https://github.com/Leask/socratex",
   "main": "index.mjs",
