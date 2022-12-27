@@ -26,9 +26,13 @@ const getAddress = (ptcl, server) => {
     return { address, family, port, add };
 };
 
+const setConfig = async (config) => {
+    return cluster.isPrimary ? await storage.setConfig(config) : null;
+};
+
 const ensureDomain = async () => {
     if (argv.domain) {
-        await storage.setConfig({ domain: argv.domain });
+        await setConfig({ domain: argv.domain });
         return argv.domain;
     }
     return (await storage.getConfig())?.config?.domain || '127.0.0.1';
@@ -38,9 +42,22 @@ const ensureToken = async () => {
     let token = (await storage.getConfig())?.config?.token;
     if (!token) {
         token = encryption.fakeUuid();
-        await storage.setConfig({ token });
+        await setConfig({ token });
     }
     return token;
+};
+
+const ensureBasicAuth = async () => {
+    const optsTrim = { trim: true };
+    argv.user = utilitas.ensureString(argv.user, optsTrim);
+    argv.password = utilitas.ensureString(argv.password, optsTrim);
+    if (argv.user && argv.password) {
+        const basicAuth = { user: argv.user, password: argv.password };
+        await setConfig(basicAuth);
+        return basicAuth;
+    }
+    const { user, password } = (await storage.getConfig())?.config || {};
+    return { user, password };
 };
 
 const request = async (req, res) => {
@@ -61,8 +78,9 @@ const port = argv.port || (
     _socratex.https ? consts.HTTPS_PORT : consts.HTTP_PORT
 );
 
+const { user, password } = await ensureBasicAuth();
 Object.assign(_socratex, {
-    domain: await ensureDomain(), token: await ensureToken()
+    domain: await ensureDomain(), token: await ensureToken(), user, password,
 });
 
 _socratex.address = (
@@ -73,10 +91,10 @@ argv.bypass = argv.bypass ? new Set(
     utilitas.ensureArray(argv.bypass).map(item => item.toUpperCase())
 ) : null;
 
-if (argv.user && argv.password) {
+if (_socratex.user && _socratex.password) {
     argv.basicAuth = async (username, password) => {
-        const result = utilitas.insensitiveCompare(username, argv.user)
-            && password === argv.password;
+        const result = utilitas.insensitiveCompare(username, _socratex.user)
+            && password === _socratex.password;
         utilitas.log(
             `Authenticate ${result ? 'SUCCESS' : 'FAILED'} => `
             + `${username}:${utilitas.mask(password)}.`,
@@ -118,14 +136,26 @@ if (cluster.isPrimary) {
         }
     } else { warning('HTTP-only mode is not recommended.'); }
 
-    let webAdd = `${_socratex.https ? consts.HTTPS : consts.HTTP}://`
-        + _socratex.domain;
+    const subAdd = `${_socratex.https ? consts.HTTPS : consts.HTTP}://`;
+    let webAdd = `${subAdd}${_socratex.domain}`;
+    let bscAdd = `${subAdd}${_socratex.user}:${_socratex.password}@${_socratex.domain}`;
     if (_socratex.https && port === consts.HTTPS_PORT) { }
     else if (!_socratex.https && port === consts.HTTP_PORT) { }
-    else { webAdd += `:${port}`; }
-    utilitas.log(`PAC:  ${webAdd}/proxy.pac?token=${_socratex.token}`, meta?.name);
-    utilitas.log(`WPAD: ${webAdd}/wpad.dat?token=${_socratex.token}`, meta?.name);
-    utilitas.log(`Log:  ${webAdd}/log?token=${_socratex.token}`, meta?.name);
+    else {
+        const tailPort = `:${port}`;
+        webAdd += tailPort
+        bscAdd += tailPort;
+    }
+    utilitas.log('* Token authentication:');
+    utilitas.log(`  - PAC:  ${webAdd}/proxy.pac?token=${_socratex.token}`, meta?.name);
+    utilitas.log(`  - WPAD: ${webAdd}/wpad.dat?token=${_socratex.token}`, meta?.name);
+    utilitas.log(`  - Log:  ${webAdd}/log?token=${_socratex.token}`, meta?.name);
+    if (_socratex.user && _socratex.password) {
+        utilitas.log('* Basic authentication:');
+        utilitas.log(`  - PAC:  ${bscAdd}/proxy.pac`, meta?.name);
+        utilitas.log(`  - WPAD: ${bscAdd}/wpad.dat`, meta?.name);
+        utilitas.log(`  - Log:  ${bscAdd}/log`, meta?.name);
+    }
     cluster.on('exit', (worker, code, signal) => {
         utilitas.log(`Process ${worker.process.pid} ended: ${code}.`, meta?.name);
         for (let i = _socratex.processes.length - 1; i >= 0; i--) {
