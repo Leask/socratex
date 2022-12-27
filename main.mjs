@@ -147,14 +147,15 @@ if (cluster.isPrimary) {
         bscAdd += tailPort;
     }
     utilitas.log('* Token authentication:');
-    utilitas.log(`  - PAC:  ${webAdd}/proxy.pac?token=${_socratex.token}`, meta?.name);
-    utilitas.log(`  - WPAD: ${webAdd}/wpad.dat?token=${_socratex.token}`, meta?.name);
-    utilitas.log(`  - Log:  ${webAdd}/log?token=${_socratex.token}`, meta?.name);
+    utilitas.log(`  - PAC:   ${webAdd}/proxy.pac?token=${_socratex.token}`, meta?.name);
+    utilitas.log(`  - WPAD:  ${webAdd}/wpad.dat?token=${_socratex.token}`, meta?.name);
+    utilitas.log(`  - Log:   ${webAdd}/log?token=${_socratex.token}`, meta?.name);
     if (_socratex.user && _socratex.password) {
         utilitas.log('* Basic authentication:');
-        utilitas.log(`  - PAC:  ${bscAdd}/proxy.pac`, meta?.name);
-        utilitas.log(`  - WPAD: ${bscAdd}/wpad.dat`, meta?.name);
-        utilitas.log(`  - Log:  ${bscAdd}/log`, meta?.name);
+        utilitas.log(`  - PAC:   ${bscAdd}/proxy.pac`, meta?.name);
+        utilitas.log(`  - WPAD:  ${bscAdd}/wpad.dat`, meta?.name);
+        utilitas.log(`  - Log:   ${bscAdd}/log`, meta?.name);
+        utilitas.log(`  - Proxy: ${bscAdd}`, meta?.name);
     }
     cluster.on('exit', (worker, code, signal) => {
         utilitas.log(`Process ${worker.process.pid} ended: ${code}.`, meta?.name);
