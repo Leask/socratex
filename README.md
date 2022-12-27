@@ -68,14 +68,11 @@ If everything works fine, you should see a message like this:
 [SSL] Done.
 [SSL] Updating certificate...
 [SSL] Done.
-[SOCRATEX] PAC:
-[SOCRATEX] WPAD:
-[SOCRATEX] Log:
-[UTILITAS] * Token authentication:
+[SOCRATEX] * Token authentication:
 [SOCRATEX]   - PAC:  https://example.com/proxy.pac?token=959c298e-9f38-b201-2e7e-14af54469889
 [SOCRATEX]   - WPAD: https://example.com/wpad.dat?token=959c298e-9f38-b201-2e7e-14af54469889
 [SOCRATEX]   - Log:  https://example.com/log?token=959c298e-9f38-b201-2e7e-14af54469889
-[UTILITAS] * Basic authentication:
+[SOCRATEX] * Basic authentication:
 [SOCRATEX]   - PAC:   https://foo:bar@example.com/proxy.pac
 [SOCRATEX]   - WPAD:  https://foo:bar@example.com/wpad.dat
 [SOCRATEX]   - Log:   https://foo:bar@example.com/log
