@@ -1,7 +1,7 @@
 {
   "name": "socratex",
   "description": "A Secure Web Proxy. Which is fast, secure, and easy to use.",
-  "version": "1.8.50",
+  "version": "2.0.0",
   "private": false,
   "homepage": "https://github.com/Leask/socratex",
   "main": "index.mjs",
@@ -10,7 +10,7 @@
     "socratex": "main.mjs"
   },
   "engines": {
-    "node": ">=16.x"
+    "node": ">=19.x"
   },
   "scripts": {
     "start": "node main.mjs",
@@ -43,6 +43,6 @@
   "dependencies": {
     "acme-client": "^5.0.0",
     "fast-geoip": "^1.1.88",
-    "nopt": "^7.0.0"
+    "utilitas": "^1992.4.10"
   }
 }

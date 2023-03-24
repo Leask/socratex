@@ -1,23 +1,28 @@
 #!/usr/bin/env node
 
-import { cpus } from 'os';
-import cluster from 'cluster';
+import { callosum, encryption, storage, utilitas } from 'utilitas';
+import { consts, Socratex, ssl, web } from './index.mjs';
+import { parseArgs } from 'node:util'; // https://kgrz.io/node-has-native-arg-parsing.html
 import http from 'http';
-import nopt from 'nopt';
-
-import {
-    consts, encryption, event, Socratex, ssl, storage, utilitas, web
-} from './index.mjs';
 
 const meta = await utilitas.which(import.meta.url);
 const [logWithTime, acmeChallenge] = [{ time: true }, { url: null, key: null }];
 const warning = message => utilitas.log(message, 'WARNING');
 const cleanTitle = str => str.replace('-x', '');
-const cpuCount = cpus().length;
+
+const { values } = parseArgs({
+    options: {
+        address: { type: 'string', short: 'a', default: '' },
+        domain: { type: 'string', short: 'd', default: '' },
+        http: { type: 'boolean', short: 'h', default: false },
+        port: { type: 'string', short: 'p', default: '0' },
+    },
+});
 
 const argv = {
-    address: '', domain: '', http: false, port: 0, getStatus: storage.getConfig,
-    setStatus: storage.setConfig, ...nopt(),
+    ...values, port: ~~values.port,
+    getStatus: storage.getConfig,
+    setStatus: storage.setConfig,
 };
 
 const getAddress = (ptcl, server) => {
@@ -26,9 +31,8 @@ const getAddress = (ptcl, server) => {
     return { address, family, port, add };
 };
 
-const setConfig = async (config) => {
-    return cluster.isPrimary ? await storage.setConfig(config) : null;
-};
+const setConfig = async (config) =>
+    callosum.isPrimary ? await storage.setConfig(config) : null;
 
 const ensureDomain = async () => {
     if (argv.domain) {
@@ -116,71 +120,62 @@ if (_socratex.token) {
     };
 }
 
-if (cluster.isPrimary) {
-    utilitas.log(`${meta.homepage}`, `${meta?.title}.*`);
-
-    if (_socratex.https) {
-        globalThis.httpd = http.createServer(request);
-        httpd.listen(consts.HTTP_PORT, argv.address, async () => {
-            const { add } = getAddress(consts.HTTP, httpd);
-            utilitas.log(`HTTP Server started at ${add}.`, meta?.name);
-        });
-        if (web.isLocalhost(_socratex.domain)) {
-            warning('A public domain is required to get an ACME certs.');
-        } else {
-            await ssl.init(_socratex.domain,
-                async (url, key) => Object.assign(acmeChallenge, { url, key }),
-                async (url) => Object.assign(acmeChallenge, { url: '', key: '' }),
-                { debug: argv.debug }
-            );
+await callosum.init({
+    initPrimary: async () => {
+        utilitas.log(`${meta.homepage}`, `${meta?.title}.*`);
+        if (_socratex.https) {
+            globalThis.httpd = http.createServer(request);
+            httpd.listen(consts.HTTP_PORT, argv.address, async () => {
+                const { add } = getAddress(consts.HTTP, httpd);
+                utilitas.log(`HTTP Server started at ${add}.`, meta?.name);
+            });
+            if (web.isLocalhost(_socratex.domain)) {
+                warning('A public domain is required to get an ACME certs.');
+            } else {
+                await ssl.init(_socratex.domain,
+                    async (url, key) => Object.assign(acmeChallenge, { url, key }),
+                    async (url) => Object.assign(acmeChallenge, { url: '', key: '' }),
+                    { debug: argv.debug }
+                );
+            }
+        } else { warning('HTTP-only mode is not recommended.'); }
+        const subAdd = `${_socratex.https ? consts.HTTPS : consts.HTTP}://`;
+        let webAdd = `${subAdd}${_socratex.domain}`;
+        let bscAdd = `${subAdd}${_socratex.user}:${_socratex.password}@${_socratex.domain}`;
+        if (_socratex.https && port === consts.HTTPS_PORT) { }
+        else if (!_socratex.https && port === consts.HTTP_PORT) { }
+        else {
+            const tailPort = `:${port}`;
+            webAdd += tailPort;
+            bscAdd += tailPort;
         }
-    } else { warning('HTTP-only mode is not recommended.'); }
-
-    const subAdd = `${_socratex.https ? consts.HTTPS : consts.HTTP}://`;
-    let webAdd = `${subAdd}${_socratex.domain}`;
-    let bscAdd = `${subAdd}${_socratex.user}:${_socratex.password}@${_socratex.domain}`;
-    if (_socratex.https && port === consts.HTTPS_PORT) { }
-    else if (!_socratex.https && port === consts.HTTP_PORT) { }
-    else {
-        const tailPort = `:${port}`;
-        webAdd += tailPort
-        bscAdd += tailPort;
-    }
-    utilitas.log('* Token authentication:', meta?.name);
-    utilitas.log(`  - PAC:   ${webAdd}/proxy.pac?token=${_socratex.token}`, meta?.name);
-    utilitas.log(`  - WPAD:  ${webAdd}/wpad.dat?token=${_socratex.token}`, meta?.name);
-    utilitas.log(`  - Log:   ${webAdd}/log?token=${_socratex.token}`, meta?.name);
-    if (_socratex.user && _socratex.password) {
+        utilitas.log('* Token authentication:', meta?.name);
+        utilitas.log(`  - PAC:   ${webAdd}/proxy.pac?token=${_socratex.token}`, meta?.name);
+        utilitas.log(`  - WPAD:  ${webAdd}/wpad.dat?token=${_socratex.token}`, meta?.name);
+        utilitas.log(`  - Log:   ${webAdd}/log?token=${_socratex.token}`, meta?.name);
+        if (!_socratex.user || !_socratex.password) { return }
         utilitas.log('* Basic authentication:', meta?.name);
         utilitas.log(`  - PAC:   ${bscAdd}/proxy.pac`, meta?.name);
         utilitas.log(`  - WPAD:  ${bscAdd}/wpad.dat`, meta?.name);
         utilitas.log(`  - Log:   ${bscAdd}/log`, meta?.name);
         utilitas.log(`  - Proxy: ${bscAdd}`, meta?.name);
-    }
-    cluster.on('exit', (worker, code, signal) => {
-        utilitas.log(`Process ${worker.process.pid} ended: ${code}.`, meta?.name);
-        for (let i = _socratex.processes.length - 1; i >= 0; i--) {
-            _socratex.processes[i].isDead() && _socratex.processes.splice(i, 1);
-        }
-    });
-    _socratex.processes = [];
-    let responded = 0;
-    await event.loop(async () => {
-        while (Object.keys(_socratex.processes).length < cpuCount) {
-            _socratex.processes.push(cluster.fork());
-        }
-    }, 3, 10, 0, utilitas.basename(import.meta.url), { silent: true });
-    cluster.on('listening', _ => ++responded >= cpuCount && web.init(argv));
-    argv.repl && (await import('repl')).start('> ');
-} else {
-    globalThis.socratex = new Socratex(argv);
-    socratex.listen(port, argv.address, async () => {
-        const { add } = getAddress(
-            _socratex.https ? consts.HTTPS : consts.HTTP, socratex
-        );
-        utilitas.log(
-            `${_socratex.https ? 'Secure ' : ''}Web Proxy started at ${add}.`,
-            `PID-${process.pid}`
-        );
-    });
-}
+    },
+    initWorker: async () => {
+        globalThis.socratex = new Socratex(argv);
+        return await new Promise((resolve, _) => {
+            socratex.listen(port, argv.address, () => {
+                const { add } = getAddress(
+                    _socratex.https ? consts.HTTPS : consts.HTTP, socratex
+                );
+                return resolve({
+                    message: `${_socratex.https
+                        ? 'Secure ' : ''}Web Proxy started at ${add}.`
+                });
+            });
+        });
+    },
+    onReady: async () => {
+        web.init(argv);
+        argv.repl && (await import('repl')).start('> ');
+    },
+});
