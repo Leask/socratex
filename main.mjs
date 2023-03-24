@@ -13,9 +13,14 @@ const cleanTitle = str => str.replace('-x', '');
 const { values } = parseArgs({
     options: {
         address: { type: 'string', short: 'a', default: '' },
-        domain: { type: 'string', short: 'd', default: '' },
+        bypass: { type: 'string', short: 'b', default: '' },
+        debug: { type: 'boolean', short: 'd', default: false },
+        domain: { type: 'string', short: 'o', default: '' },
         http: { type: 'boolean', short: 'h', default: false },
-        port: { type: 'string', short: 'p', default: '0' },
+        password: { type: 'string', short: 'p', default: '' },
+        port: { type: 'string', short: 'o', default: '0' },
+        repl: { type: 'boolean', short: 'r', default: false },
+        user: { type: 'string', short: 'u', default: '' },
     },
 });
 
