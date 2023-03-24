@@ -16,7 +16,7 @@
     "start": "node main.mjs",
     "debug": "node --inspect --trace-warnings main.mjs --http --debug",
     "test": "node --inspect --trace-warnings test.mjs",
-    "updep": "npx ncu -u && npm install && wget https://raw.githubusercontent.com/Marak/colors.js/master/lib/styles.js -O ./lib/style.cjs",
+    "updep": "npx ncu -u && npm install",
     "gitsync": "( git commit -am \"Released @ `date`\" || true ) && git pull && git push",
     "build": "npm run updep && ( git commit -am 'update dependencies' || true )",
     "pub": "npm run build && npm run gitsync",
@@ -43,6 +43,6 @@
   "dependencies": {
     "acme-client": "^5.0.0",
     "fast-geoip": "^1.1.88",
-    "utilitas": "^1992.4.10"
+    "utilitas": "^1992.4.13"
   }
 }
