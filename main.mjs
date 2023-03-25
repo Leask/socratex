@@ -79,6 +79,7 @@ const request = async (req, res) => {
     }).end();
 };
 
+await utilitas.locate(utilitas.__(import.meta.url, 'package.json'));
 globalThis._socratex = { https: argv.https = !argv.http };
 meta.name = cleanTitle(meta.name);
 meta.title = cleanTitle(meta.title);
