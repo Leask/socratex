@@ -43,6 +43,6 @@
   "dependencies": {
     "acme-client": "^5.0.0",
     "fast-geoip": "^1.1.88",
-    "utilitas": "^1992.4.26"
+    "utilitas": "^1992.4.27"
   }
 }

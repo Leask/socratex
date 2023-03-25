@@ -1,28 +1,28 @@
 #!/usr/bin/env node
 
-import { callosum, encryption, storage, utilitas } from 'utilitas';
+import { callosum, encryption, manifest, storage, utilitas } from 'utilitas';
 import { consts, Socratex, ssl, web } from './index.mjs';
 import { parseArgs } from 'node:util'; // https://kgrz.io/node-has-native-arg-parsing.html
 import http from 'http';
 
-const meta = await utilitas.which(import.meta.url);
+const argsOptions = {
+    address: { type: 'string', short: 'a', default: '' },
+    bypass: { type: 'string', short: 'b', default: '' },
+    debug: { type: 'boolean', short: 'd', default: false },
+    domain: { type: 'string', short: 'o', default: '' },
+    help: { type: 'boolean', short: 'h', default: false },
+    http: { type: 'boolean', short: 't', default: false },
+    password: { type: 'string', short: 'p', default: '' },
+    port: { type: 'string', short: 'o', default: '0' },
+    repl: { type: 'boolean', short: 'r', default: false },
+    user: { type: 'string', short: 'u', default: '' },
+    version: { type: 'boolean', short: 'v', default: false },
+};
+
 const [logWithTime, acmeChallenge] = [{ time: true }, { url: null, key: null }];
 const warning = message => utilitas.log(message, 'WARNING');
 const cleanTitle = str => str.replace('-x', '');
-
-const { values } = parseArgs({
-    options: {
-        address: { type: 'string', short: 'a', default: '' },
-        bypass: { type: 'string', short: 'b', default: '' },
-        debug: { type: 'boolean', short: 'd', default: false },
-        domain: { type: 'string', short: 'o', default: '' },
-        http: { type: 'boolean', short: 'h', default: false },
-        password: { type: 'string', short: 'p', default: '' },
-        port: { type: 'string', short: 'o', default: '0' },
-        repl: { type: 'boolean', short: 'r', default: false },
-        user: { type: 'string', short: 'u', default: '' },
-    },
-});
+const { values } = parseArgs({ options: argsOptions });
 
 const argv = {
     ...values, port: ~~values.port,
@@ -81,12 +81,21 @@ const request = async (req, res) => {
 
 await utilitas.locate(utilitas.__(import.meta.url, 'package.json'));
 globalThis._socratex = { https: argv.https = !argv.http };
+const meta = await utilitas.which();
 meta.name = cleanTitle(meta.name);
 meta.title = cleanTitle(meta.title);
 
-const port = argv.port || (
-    _socratex.https ? consts.HTTPS_PORT : consts.HTTP_PORT
-);
+if (argv.help) {
+    [meta.title, '', `Usage: ${meta.name} [options]`, ''].map(x => console.log(x));
+    console.table(argsOptions);
+    process.exit();
+} else if (argv.version) {
+    [meta.title, `${manifest.name} ${manifest.version}`].map(x => console.log(x));
+    process.exit();
+}
+
+const port = argv.port
+    || (_socratex.https ? consts.HTTPS_PORT : consts.HTTP_PORT);
 
 const { user, password } = await ensureBasicAuth();
 Object.assign(_socratex, {
