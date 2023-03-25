@@ -90,7 +90,7 @@ if (argv.help) {
     console.table(argsOptions);
     process.exit();
 } else if (argv.version) {
-    [meta.title, `${manifest.name} ${manifest.version}`].map(x => console.log(x));
+    [meta.title, `${manifest.name} v${manifest.version}`].map(x => console.log(x));
     process.exit();
 }
 
