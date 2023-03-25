@@ -158,12 +158,12 @@ await callosum.init({
         utilitas.log('* Token authentication:', meta?.name);
         utilitas.log(`  - PAC:   ${webAdd}/proxy.pac?token=${_socratex.token}`, meta?.name);
         utilitas.log(`  - WPAD:  ${webAdd}/wpad.dat?token=${_socratex.token}`, meta?.name);
-        utilitas.log(`  - Log:   ${webAdd}/log?token=${_socratex.token}`, meta?.name);
+        utilitas.log(`  - Log:   ${webAdd}/console?token=${_socratex.token}`, meta?.name);
         if (!_socratex.user || !_socratex.password) { return }
         utilitas.log('* Basic authentication:', meta?.name);
         utilitas.log(`  - PAC:   ${bscAdd}/proxy.pac`, meta?.name);
         utilitas.log(`  - WPAD:  ${bscAdd}/wpad.dat`, meta?.name);
-        utilitas.log(`  - Log:   ${bscAdd}/log`, meta?.name);
+        utilitas.log(`  - Log:   ${bscAdd}/console`, meta?.name);
         utilitas.log(`  - Proxy: ${bscAdd}`, meta?.name);
     },
     initWorker: async () => {
