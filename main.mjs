@@ -82,11 +82,14 @@ if (argv.help) {
 }
 
 // init
-globalThis._socratex = { https: argv.https = !argv.http };
+globalThis._socratex = {
+    https: argv.https = !argv.http, domain: await ensureDomain(),
+};
 const port = argv.port || (_socratex.https ? consts.HTTPS_PORT : consts.HTTP_PORT);
 Object.assign(_socratex, {
-    domain: await ensureDomain(), token: await ensureToken(), ...await ensureBasicAuth(),
-    address: (_socratex.https ? consts.HTTPS.toUpperCase() : consts.PROXY) + ` ${_socratex.domain}:${port}`,
+    token: await ensureToken(), ...await ensureBasicAuth(), address: (
+        _socratex.https ? consts.HTTPS.toUpperCase() : consts.PROXY
+    ) + ` ${_socratex.domain}:${port}`,
 });
 _socratex.user && _socratex.password && (
     argv.basicAuth = async (username, password) => {
