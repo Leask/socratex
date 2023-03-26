@@ -15,6 +15,7 @@ const argsOptions = {
     password: { type: 'string', short: 'p', default: '' },
     port: { type: 'string', short: 'o', default: '0' },
     repl: { type: 'boolean', short: 'r', default: false },
+    token: { type: 'string', short: 'k', default: '' },
     user: { type: 'string', short: 'u', default: '' },
     version: { type: 'boolean', short: 'v', default: false },
 };
