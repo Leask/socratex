@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { callosum, encryption, manifest, ssl, storage, utilitas } from 'utilitas';
+import { callosum, manifest, ssl, storage, uoid, utilitas } from 'utilitas';
 import { consts, Socratex, web } from './index.mjs';
 import { parseArgs } from 'node:util'; // https://kgrz.io/node-has-native-arg-parsing.html
 
@@ -52,7 +52,7 @@ const ensureDomain = async () => {
 const ensureToken = async () => {
     let token = (await storage.getConfig())?.config?.token;
     if (!token) {
-        token = encryption.fakeUuid();
+        token = uoid.fakeUuid();
         await setConfig({ token });
     }
     return token;
