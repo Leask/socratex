@@ -19,7 +19,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/setup-node@v3
         with:
-          node-version: 19
+          node-version: 22
           registry-url: https://registry.npmjs.org/
       - run: git config --global user.name 'Leask Wong'
       - run: git config --global user.email 'i@leaskh.com'
